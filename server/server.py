@@ -1,12 +1,15 @@
 # coding=utf-8
 
+# source venv/bin/activate
+
 import os
 import requests
 import json
 import dateutil.parser
-import datetime
+import datetime, time
+from shutil import copyfile
 from flask import Flask, request, redirect, url_for
-from werkzeug.utils import secure_filename
+from flask_socketio import SocketIO
 
 SNAPSHOT_NAME = 'snapshot.jpg'
 
@@ -70,13 +73,26 @@ def upload_file():
         if not file or file.filename == '' or not allowed_file(file.filename):
             return 'ERROR: Wrong file..'
 
-        #filename = secure_filename(file.filename)
-        filename = SNAPSHOT_NAME
-        file.save(os.path.join(webapp.config['UPLOAD_FOLDER'], filename))
+        # Save last Snapshot
+        filepath = os.path.join(webapp.config['UPLOAD_FOLDER'], SNAPSHOT_NAME)
+        file.save(filepath)
+
+        # Save last Snapshot
+        filepath2 = os.path.join(webapp.config['UPLOAD_FOLDER'], str(int(time.time()))+"_"+SNAPSHOT_NAME)
+        copyfile(filepath, filepath2)
+
+        # Remove older ones
+        existingfiles = [f for f in os.listdir(webapp.config['UPLOAD_FOLDER'])
+                            if os.path.isfile(os.path.join(webapp.config['UPLOAD_FOLDER'], f))]
+        existingfiles.sort()
+        while len(existingfiles) > 10:
+            old = existingfiles.pop(0)
+            os.remove(os.path.join(webapp.config['UPLOAD_FOLDER'], old))
+
         return 'SUCCESS!'
     return 'ERROR: You\'re lost Dave..'
 
 
 
 if __name__ == "__main__":
-    webapp.run()
+    webapp.run(host='0.0.0.0')
