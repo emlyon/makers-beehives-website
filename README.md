@@ -1,2 +1,2 @@
-# Server-heroku
-Serveur python heroku + Dashboard - Ruche connectée
+# HoneyPot-EMProto
+Ruche connectée - Protoype v 0.1

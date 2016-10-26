@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+	{% include 'header.html' %}
+</head>
+<body>
+	<div class="wrapper">
+		{% include 'sidebar.html' %}
+
+		<div class="main-panel">
+			{% include 'navbar.html' %}
+
+			<div class="content">
+
+				<div class="container-fluid">
+					<div class="row">
+
+						<div class="col-lg-4 col-md-12 col-sm-12">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="brown">
+									<i class="material-icons">linked_camera</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Snapshot</p>
+									<br /><br />
+									<img id="snapshot" src="/static/upload/snapshot.jpg" />
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">update</i> {{image.updated}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-4 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="orange">
+									<i class="material-icons">cloud_circle</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Temperature</p>
+									<h3 class="title">{{temp.value}}<small>°C</small></h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">update</i> {{temp.updated}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-4 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="green">
+									<i class="material-icons">grain</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Humidité</p>
+									<h3 class="title">{{humi.value}}<small>%</small></h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">update</i> {{humi.updated}}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="red">
+									<i class="material-icons">volume_up</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Bruit</p>
+									<h3 class="title">{{noise.value}}<small>dB</small></h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">update</i> {{noise.updated}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-4 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="blue">
+									<i class="material-icons">brightness_medium</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Luminosité</p>
+									<h3 class="title">{{light.value}}<small>Lux</small></h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">update</i> {{light.updated}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
