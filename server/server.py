@@ -146,7 +146,7 @@ def take_shot():
     if getBool('clac'):
         setBool('clac', False)
         print('clac')
-        return '/static/upload/'+USERSHOT_NAME 
+        return '/static/upload/'+USERSHOT_NAME  
     else:
         return 'FAILED'
 
