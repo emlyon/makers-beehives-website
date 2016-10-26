@@ -39,9 +39,10 @@ def home():
     try:
         snapdate = datetime.datetime.fromtimestamp(os.path.getmtime(UPLOAD_PATH+SNAPSHOT_NAME))
         snapdate += datetime.timedelta(hours=2)
+        data['image'] = {'updated': snapdate.strftime("%d/%m/%Y %H:%M:%S") }
     except:
-        snapdate = 0
-    data['image'] = {'updated': snapdate.strftime("%d/%m/%Y %H:%M:%S") }
+        data['image'] = {'updated': '...' }
+
 
     # SCK api
     try:
