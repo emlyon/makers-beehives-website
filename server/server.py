@@ -51,12 +51,8 @@ setBool('clik', False)
 setBool('clak', False)
 setBool('repeat', False)
 
-# Home
-@webapp.route("/")
-def home():
-
-    dashboard = jinja_env.get_template('base.html')
-
+# Poll SCK
+def pollSCK():
     data = {}
 
     # SCK api
@@ -68,6 +64,8 @@ def home():
         data['sck_city'] = req['data']['location']['city']
         data['sck_country'] = req['data']['location']['country']
         data['sck_inout'] = req['data']['location']['exposure']
+        data['sck_lat'] = req['data']['location']['latitude']
+        data['sck_long'] = req['data']['location']['longitude']
 
         for sensor in req['data']['sensors']:
             if sensor['id'] == 12: key = 'temp'
@@ -80,10 +78,45 @@ def home():
                 sckdate += datetime.timedelta(hours=2)
                 data[key] = {'value': round(sensor['value'],2), 'updated': sckdate.strftime("%d/%m/%Y %H:%M:%S")}
 
-        return dashboard.render(data)
+        return data
 
     except:
-        return "SCK API unavailable"
+        return None
+
+# Home
+@webapp.route("/")
+def home():
+
+    base = jinja_env.get_template('base.html')
+    dashboard = jinja_env.get_template('dashboard.html')
+
+    data = pollSCK()
+    data['activepage'] = 'dashboard'
+    return base.render(data, content=dashboard.render(data))
+
+
+# Maps
+@webapp.route("/maps")
+def maps():
+
+    base = jinja_env.get_template('base.html')
+    maps = jinja_env.get_template('maps.html')
+
+    data = pollSCK()
+    data['activepage'] = 'maps'
+    return base.render(data, content=maps.render(data))
+
+
+# Maps
+@webapp.route("/notify")
+def notify():
+
+    base = jinja_env.get_template('base.html')
+
+    data = {}
+    data['activepage'] = 'notify'
+    return base.render(data, content=" ")
+
 
 
 # Upload snapshot
