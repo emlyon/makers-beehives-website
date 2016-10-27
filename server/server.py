@@ -2,7 +2,7 @@
 
 # source venv/bin/activate
 
-import os
+import os, glob
 import requests
 import json
 import dateutil.parser
@@ -10,9 +10,16 @@ import datetime, time
 from shutil import copyfile
 from flask import Flask, request, redirect, url_for
 
+# Settings
+REPEAT_INTERVAL = 1             # Interval between snaphots in seconds
+HISTORY_COUNT = 10              # Number of snapshot to keep
+
 SNAPSHOT_NAME = 'snapshot.jpg'
-USERSHOT_NAME = 'usershot.jpg'
 UPLOAD_PATH = os.path.dirname(os.path.abspath(__file__))+'/static/upload/'
+
+LONGPOLL_TIME = 5
+LONGPOLL_INTERVAL = 0.1
+LONGPOLL_LIMIT = int(LONGPOLL_TIME/LONGPOLL_INTERVAL)
 
 # Flask Webserver
 webapp = Flask(__name__)
@@ -26,6 +33,23 @@ jinja_env = Environment(loader=PackageLoader('server', 'views'))
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+# Shared Bool SETTER
+def setBool(name, boole):
+        if boole:
+            if not getBool(name):
+                os.mknod(name+".tmp")
+        elif getBool(name):
+            os.remove(name+".tmp")
+
+# Shared Bool GETTER
+def getBool(name):
+        return os.path.isfile(name+".tmp")
+
+# Init
+setBool('clik', False)
+setBool('clak', False)
+setBool('repeat', False)
 
 # Home
 @webapp.route("/")
@@ -72,7 +96,7 @@ def home():
 
 
 # Upload snapshot
-@webapp.route("/snapshot", methods=['GET', 'POST'])
+@webapp.route("/shot", methods=['POST'])
 def snapshot_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -83,92 +107,74 @@ def snapshot_file():
         if not file or file.filename == '' or not allowed_file(file.filename):
             return 'ERROR: Wrong file..'
 
-        # Save last Snapshot
-        filepath = os.path.join(webapp.config['UPLOAD_FOLDER'], SNAPSHOT_NAME)
+        # Save Snapshot with Timestamp
+        filepath = os.path.join(UPLOAD_PATH, str(int(time.time()))+"_"+SNAPSHOT_NAME)
         file.save(filepath)
-
-        # Save last Snapshot
-        filepath2 = os.path.join(webapp.config['UPLOAD_FOLDER'], str(int(time.time()))+"_"+SNAPSHOT_NAME)
-        copyfile(filepath, filepath2)
 
         # Remove older ones
-        existingfiles = [f for f in os.listdir(webapp.config['UPLOAD_FOLDER'])
-                            if os.path.isfile(os.path.join(webapp.config['UPLOAD_FOLDER'], f))]
+        existingfiles = []
+        for f in os.listdir(UPLOAD_PATH):
+            if os.path.isfile(os.path.join(UPLOAD_PATH, f)):
+                existingfiles.append(f)
         existingfiles.sort()
-        while len(existingfiles) > 10:
+        while len(existingfiles) > HISTORY_COUNT:
             old = existingfiles.pop(0)
-            os.remove(os.path.join(webapp.config['UPLOAD_FOLDER'], old))
+            os.remove(os.path.join(UPLOAD_PATH, old))
+
+        # New shot available
+        setBool('clak', True)
+
+        # Should we repeat ?
+        if getBool('repeat'):
+            time.sleep(REPEAT_INTERVAL)
+            setBool('clik', True)
 
         return 'SUCCESS'
+
     return 'ERROR: You\'re lost Dave..'
 
-
-# Upload usershot
-@webapp.route("/shot", methods=['GET', 'POST'])
-def usershot_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'image' not in request.files:
-            return 'ERROR: No file..'
-
-        file = request.files['image']
-        if not file or file.filename == '' or not allowed_file(file.filename):
-            return 'ERROR: Wrong file..'
-
-        # Save last Usershot
-        filepath = os.path.join(webapp.config['UPLOAD_FOLDER'], USERSHOT_NAME)
-        file.save(filepath)
-
-        setBool('clac', True)
-
-        return 'SUCCESS'
-    return 'ERROR: You\'re lost Dave..'
-
-
-def setBool(name, boole):
-        if boole:
-            os.mknod(name+".tmp")
-        elif getBool(name):
-            os.remove(name+".tmp")
-
-def getBool(name):
-        return os.path.isfile(name+".tmp")
-
-setBool('clic', False)
-setBool('clac', False)
 
 # Dashboard ask a shot
-@webapp.route("/clic")
-def take_shot():
-    print('clic')
-    setBool('clic', True)
-    wait_clac = 0
-    while not getBool('clac') and wait_clac < 50:
-        time.sleep(0.1)
-        wait_clac += 1
-
-    if getBool('clac'):
-        setBool('clac', False)
-        print('clac')
-        return '/static/upload/'+USERSHOT_NAME
-    else:
-        return 'FAILED'
+@webapp.route("/clik/<int:repeat>")
+def take_shot(repeat):
+    print('clik')
+    setBool('clik', True)
+    setBool('repeat', (repeat==1))
+    return 'OK'
 
 
-# RPi ask if shot should be taken
-@webapp.route("/clac")
-def should_shot():
-    wait_clic = 0
-    while not getBool('clic') and wait_clic < 50:
-        time.sleep(0.1)
-        wait_clic += 1
+# RPi keep informed
+@webapp.route("/clak")
+def wait_order():
+    wait_clik = 0
+    while not getBool('clik') and wait_clik < LONGPOLL_LIMIT:
+        time.sleep(LONGPOLL_INTERVAL)
+        wait_clik += 1
 
-    if getBool('clic'):
-        setBool('clic', False)
+    if getBool('clik'):
+        setBool('clik', False)
         return 'YES'
     else:
         return 'NO'
 
+
+# Dashboard keep informed
+@webapp.route("/news")
+def wait_news():
+    wait_news = 0
+    while not getBool('clak') and wait_news < LONGPOLL_LIMIT:
+        time.sleep(LONGPOLL_INTERVAL)
+        wait_news += 1
+
+    if getBool('clak'):
+        setBool('clak', False)
+        print('clak')
+        # Last snapshot
+        newest = max(glob.iglob(UPLOAD_PATH+'*.jpg'), key=os.path.getctime)
+        path, filename = os.path.split(newest)
+        return '/static/upload/'+filename
+    else:
+        return 'NOTHING'
 
 
 if __name__ == "__main__":

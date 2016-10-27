@@ -2,6 +2,51 @@
 <html lang="en">
 <head>
 	{% include 'header.html' %}
+
+	<script type="text/javascript">
+	    $(document).ready(function(){
+
+	    // Javascript method's body can be found in assets/js/demos.js
+	        demo.initDashboardPageCharts();
+
+	        // REFRESH: 1 minute
+	         /*function refresh() {
+	                 window.location.reload(true);
+	         }
+	         setTimeout(refresh, 60000);*/
+
+	         // REFRESH snapshot: 5 secondes
+	         /*function refresh_snap() {
+	                 $("#snapshot").attr("src", $("#snapshot").attr("src").split('?')[0]+"?" + new Date().getTime());
+	         }
+	         setInterval(refresh_snap, 3500);*/
+
+					 // ORDER Clik
+	         $('#clicclac').on('click',function() {
+	           $.ajax({ url: '/clik/1',
+	             success: function(data) {
+	               if (data == 'OK') console.log('clik');
+	             }
+	           });
+	         });
+
+					 // WAIT for news
+					 function newspoll() {
+						 $.ajax({ url: '/news',
+	             success: function(data) {
+	               if (data != 'NOTHING') {
+	                 console.log(data)
+	                 $("#snapshot").attr("src", data+"?"+new Date().getTime());
+	               }
+								 else console.log('No News..');
+	             },
+							 complete: newspoll
+	           });
+					 }
+					 newspoll();
+
+	    });
+	</script>
 </head>
 <body>
 	<div class="wrapper">
@@ -17,7 +62,7 @@
 
 						<div class="col-lg-4 col-md-12 col-sm-12">
 							<div class="card card-stats">
-								<div class="card-header" data-background-color="brown">
+								<div class="card-header" data-background-color="purple" id="clicclac">
 									<i class="material-icons">linked_camera</i>
 								</div>
 								<div class="card-content">
@@ -29,19 +74,6 @@
 									<div class="stats">
 										<i class="material-icons">update</i> {{image.updated}}
 									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-12 col-sm-12">
-							<div class="card card-stats">
-								<div class="card-header" data-background-color="purple" id="clicclac">
-									<i class="material-icons">camera</i>
-								</div>
-								<div class="card-content">
-									<p class="category">Usershot</p>
-									<br /><br />
-									<img id="usershot" src="" />
 								</div>
 							</div>
 						</div>
