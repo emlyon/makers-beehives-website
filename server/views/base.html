@@ -6,24 +6,22 @@
 	<script type="text/javascript">
 	    $(document).ready(function(){
 
-	    // Javascript method's body can be found in assets/js/demos.js
+	    		// Javascript method's body can be found in assets/js/demos.js
 	        demo.initDashboardPageCharts();
 
-	        // REFRESH: 1 minute
-	         /*function refresh() {
-	                 window.location.reload(true);
-	         }
-	         setTimeout(refresh, 60000);*/
-
-	         // REFRESH snapshot: 5 secondes
-	         /*function refresh_snap() {
-	                 $("#snapshot").attr("src", $("#snapshot").attr("src").split('?')[0]+"?" + new Date().getTime());
-	         }
-	         setInterval(refresh_snap, 3500);*/
-
-					 // ORDER Clik
+					 // SNAPSHOT Clik
 	         $('#clicclac').on('click',function() {
-	           $.ajax({ url: '/clik/1',
+	           $.ajax({ url: '/clik/0',
+	             success: function(data) {
+	               if (data == 'OK') console.log('clik');
+	             }
+	           });
+	         });
+
+					 // RECORD Clik
+	         $('#record').on('click',function() {
+	           $.ajax({
+							 url: '/clik/1',
 	             success: function(data) {
 	               if (data == 'OK') console.log('clik');
 	             }
@@ -32,13 +30,15 @@
 
 					 // WAIT for news
 					 function newspoll() {
-						 $.ajax({ url: '/news',
+						 $.ajax({
+							 url: '/news',
+							 dataType: 'json',
 	             success: function(data) {
-	               if (data != 'NOTHING') {
-	                 console.log(data)
-	                 $("#snapshot").attr("src", data+"?"+new Date().getTime());
-	               }
-								 else console.log('No News..');
+                 	console.log(data)
+								 	if (data['snapshot']) $("#snapshot").attr("src", data['snapshot']);
+									if (data['snaptime']) $("#snaptime").html(data['snaptime']);
+									if (data['recording']) $("#record").parent().addClass('active');
+									else $("#record").parent().removeClass('active');
 	             },
 							 complete: newspoll
 	           });
@@ -50,35 +50,118 @@
 </head>
 <body>
 	<div class="wrapper">
-		{% include 'sidebar.html' %}
+
+		<!--
+		      SIDEBAR
+		-->
+		<div class="sidebar" data-color="orange" data-image="">
+		<!--
+		    Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+
+		    Tip 2: you can also add an image using data-image tag
+
+		    data-image="/static/dashboard/assets/img/sidebar-1.jpg"
+		-->
+
+		  <div class="logo">
+		    <a href="/" class="simple-text">
+		      HoneyPot
+		    </a>
+		  </div>
+
+		  <div class="sidebar-wrapper">
+		        <ul class="nav">
+		            <li class="active">
+		                <a href="#">
+		                    <i class="material-icons">dashboard</i>
+		                    <p>Dashboard</p>
+		                </a>
+		            </li>
+		            <li>
+		                <a href="#">
+		                    <i class="material-icons">location_on</i>
+		                    <p>Maps</p>
+		                </a>
+		            </li>
+		            <li>
+		                <a href="#">
+		                    <i class="material-icons text-gray">notifications</i>
+		                    <p>Évènements</p>
+		                </a>
+		            </li>
+		        </ul>
+		  </div>
+		</div>
+		<!--
+		      END SIDEBAR
+		-->
+
 
 		<div class="main-panel">
-			{% include 'navbar.html' %}
+
+			<!--
+			      NAVBAR
+			-->
+			<nav class="navbar navbar-transparent navbar-absolute">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle" data-toggle="collapse">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			      <div class="navbar-brand" href="#">Dispositif n°{{sck_id}}: {{sck_name}} <br/>{{sck_city}}, {{sck_country}} ({{sck_inout}}) </div>
+			    </div>
+			  </div>
+			</nav>
+			<!--
+			      END NAVBAR
+			-->
 
 			<div class="content">
 
 				<div class="container-fluid">
 					<div class="row">
 
-						<div class="col-lg-4 col-md-12 col-sm-12">
-							<div class="card card-stats">
-								<div class="card-header" data-background-color="purple" id="clicclac">
-									<i class="material-icons">linked_camera</i>
+						<div class="col-lg-6 col-md-6 col-sm-12">
+							<div class="card card-nav-tabs">
+								<div class="card-header" data-background-color="purple" style="min-height:75px">
+									<div class="nav-tabs-navigation">
+										<div class="nav-tabs-wrapper">
+											<span class="nav-tabs-title">
+												<i class="material-icons">linked_camera</i>
+											</span>
+											<ul class="nav nav-tabs navbar-right" data-tabs="tabs">
+												<li class="">
+													<a href="#snapshot" id="clicclac">
+														<i class="material-icons">camera</i>
+														Snapshot
+													<div class="ripple-container"></div></a>
+												</li>
+												<li class="">
+													<a href="#record" id="record">
+														<i class="material-icons">save</i>
+														Record
+													<div class="ripple-container"></div></a>
+												</li>
+											</ul>
+										</div>
+									</div>
 								</div>
 								<div class="card-content">
-									<p class="category">Snapshot</p>
-									<br /><br />
-									<img id="snapshot" src="/static/upload/snapshot.jpg" />
+									<img id="snapshot" src="" />
 								</div>
 								<div class="card-footer">
 									<div class="stats">
-										<i class="material-icons">update</i> {{image.updated}}
+										<i class="material-icons">update</i>
+										<div id="snaptime">...</div>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="col-lg-3 col-md-6 col-sm-6">
 							<div class="card card-stats">
 								<div class="card-header" data-background-color="orange">
 									<i class="material-icons">cloud_circle</i>
@@ -95,7 +178,7 @@
 							</div>
 						</div>
 
-						<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="col-lg-3 col-md-6 col-sm-6">
 							<div class="card card-stats">
 								<div class="card-header" data-background-color="green">
 									<i class="material-icons">grain</i>
@@ -111,7 +194,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="col-lg-3 col-md-6 col-sm-6">
 							<div class="card card-stats">
 								<div class="card-header" data-background-color="red">
 									<i class="material-icons">volume_up</i>
@@ -128,7 +211,7 @@
 							</div>
 						</div>
 
-						<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="col-lg-3 col-md-6 col-sm-6">
 							<div class="card card-stats">
 								<div class="card-header" data-background-color="blue">
 									<i class="material-icons">brightness_medium</i>

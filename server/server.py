@@ -11,7 +11,7 @@ from shutil import copyfile
 from flask import Flask, request, redirect, url_for
 
 # Settings
-REPEAT_INTERVAL = 1             # Interval between snaphots in seconds
+RECORD_INTERVAL = 1             # Interval between snaphots in seconds
 HISTORY_COUNT = 10              # Number of snapshot to keep
 
 SNAPSHOT_NAME = 'snapshot.jpg'
@@ -58,15 +58,6 @@ def home():
     dashboard = jinja_env.get_template('base.html')
 
     data = {}
-
-    # Snapshot
-    try:
-        snapdate = datetime.datetime.fromtimestamp(os.path.getmtime(UPLOAD_PATH+SNAPSHOT_NAME))
-        snapdate += datetime.timedelta(hours=2)
-        data['image'] = {'updated': snapdate.strftime("%d/%m/%Y %H:%M:%S") }
-    except:
-        data['image'] = {'updated': '...' }
-
 
     # SCK api
     try:
@@ -126,7 +117,7 @@ def snapshot_file():
 
         # Should we repeat ?
         if getBool('repeat'):
-            time.sleep(REPEAT_INTERVAL)
+            time.sleep(RECORD_INTERVAL)
             setBool('clik', True)
 
         return 'SUCCESS'
@@ -161,20 +152,29 @@ def wait_order():
 # Dashboard keep informed
 @webapp.route("/news")
 def wait_news():
+
+    data = {}
+
     wait_news = 0
     while not getBool('clak') and wait_news < LONGPOLL_LIMIT:
         time.sleep(LONGPOLL_INTERVAL)
         wait_news += 1
 
+    # New Snaphsot available
     if getBool('clak'):
         setBool('clak', False)
         print('clak')
+
         # Last snapshot
         newest = max(glob.iglob(UPLOAD_PATH+'*.jpg'), key=os.path.getctime)
         path, filename = os.path.split(newest)
-        return '/static/upload/'+filename
-    else:
-        return 'NOTHING'
+
+        snapdate = datetime.datetime.fromtimestamp(os.path.getmtime(newest)) + datetime.timedelta(hours=2)
+        data['snaptime'] = snapdate.strftime("%d/%m/%Y %H:%M:%S")
+        data['snapshot'] = '/static/upload/'+filename
+
+    data['recording'] = getBool('repeat')
+    return json.dumps(data)
 
 
 if __name__ == "__main__":
