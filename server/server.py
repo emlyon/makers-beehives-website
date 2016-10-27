@@ -17,7 +17,7 @@ HISTORY_COUNT = 10              # Number of snapshot to keep
 SNAPSHOT_NAME = 'snapshot.jpg'
 UPLOAD_PATH = os.path.dirname(os.path.abspath(__file__))+'/static/upload/'
 
-LONGPOLL_TIME = 5
+LONGPOLL_TIME = 15
 LONGPOLL_INTERVAL = 0.1
 LONGPOLL_LIMIT = int(LONGPOLL_TIME/LONGPOLL_INTERVAL)
 
