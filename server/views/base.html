@@ -6,44 +6,52 @@
 	<script type="text/javascript">
 	    $(document).ready(function(){
 
-	    		// Javascript method's body can be found in assets/js/demos.js
-	        demo.initDashboardPageCharts();
+				// Javascript method's body can be found in assets/js/demos.js
+				demo.initDashboardPageCharts();
 
-					 // SNAPSHOT Clik
-	         $('#clicclac').on('click',function() {
-	           $.ajax({ url: '/clik/0',
-	             success: function(data) {
-	               if (data == 'OK') console.log('clik');
-	             }
-	           });
-	         });
+				// REFRESH: 1 minute
+				function refresh() {
+						 window.location.reload(true);
+				}
+				setTimeout(refresh, 60000);
 
-					 // RECORD Clik
-	         $('#record').on('click',function() {
-	           $.ajax({
-							 url: '/clik/1',
-	             success: function(data) {
-	               if (data == 'OK') console.log('clik');
-	             }
-	           });
-	         });
+				// SNAPSHOT Clik
+				$('#clicclac').on('click',function() {
+				 	$.ajax({ url: '/clik/0',
+				   success: function(data) {
+				     if (data == 'OK') console.log('clik');
+				   }
+				 });
+				});
 
-					 // WAIT for news
-					 function newspoll() {
-						 $.ajax({
-							 url: '/news',
-							 dataType: 'json',
-	             success: function(data) {
-                 	console.log(data)
-								 	if (data['snapshot']) $("#snapshot").attr("src", data['snapshot']);
-									if (data['snaptime']) $("#snaptime").html(data['snaptime']);
-									if (data['recording']) $("#record").parent().addClass('active');
-									else $("#record").parent().removeClass('active');
-	             },
-							 complete: newspoll
-	           });
-					 }
-					 newspoll();
+				// RECORD Clik
+				$('#record').on('click',function() {
+				 if ($(this).parent().hasClass('active')) recurl = '/clik/0';
+				 else recurl = '/clik/1';
+				 $.ajax({
+					 url: recurl,
+				   success: function(data) {
+				     if (data == 'OK') console.log('clik');
+				   }
+				 });
+				});
+
+				// WAIT for news
+				function newspoll() {
+				 $.ajax({
+					 url: '/news',
+					 dataType: 'json',
+				   success: function(data) {
+				     	console.log(data)
+						 	if (data['snapshot']) $("#snapshot").attr("src", data['snapshot']);
+							if (data['snaptime']) $("#snaptime").html(data['snaptime']);
+							if (data['recording']) $("#record").parent().addClass('active');
+							else $("#record").parent().removeClass('active');
+				   },
+					 complete: newspoll
+				 });
+				}
+				newspoll();
 
 	    });
 	</script>
