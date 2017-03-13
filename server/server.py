@@ -100,7 +100,7 @@ def maps():
     base = jinja_env.get_template('base.html')
     maps = jinja_env.get_template('maps.html')
 
-    data = pollSCK(3723)
+    data = pollSCK(1616)
     data[ 'activepage' ] = 'maps'
     return base.render(data, content=maps.render(data))
 
