@@ -53,10 +53,12 @@
 					        <span class="icon-bar"></span>
 					        <span class="icon-bar"></span>
 					        <span class="icon-bar"></span>
-			      		</button> {% if sck_name is defined %}
+			      		</button>
+						{% if sck_name is defined %}
 						<div class="navbar-brand" href="#">
 							{{sck_name}} ({{sck_id}}) <br>
-							{{sck_city}}, {{sck_country}} ({{sck_inout}})
+							{{sck_city}}, {{sck_country}} ({{sck_inout}}) <br>
+							({{sck_lat}} , {{sck_long}})
 						</div>
 						{% endif %}
 					</div>
