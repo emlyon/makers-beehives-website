@@ -86,7 +86,6 @@ def pollSCK():
 # Home
 @webapp.route("/")
 def home():
-
     base = jinja_env.get_template('base.html')
     dashboard = jinja_env.get_template('dashboard.html')
 
@@ -98,7 +97,6 @@ def home():
 # Maps
 @webapp.route("/maps")
 def maps():
-
     base = jinja_env.get_template('base.html')
     maps = jinja_env.get_template('maps.html')
 
@@ -106,17 +104,14 @@ def maps():
     data['activepage'] = 'maps'
     return base.render(data, content=maps.render(data))
 
-
 # Maps
 @webapp.route("/notify")
 def notify():
-
     base = jinja_env.get_template('base.html')
 
     data = {}
     data['activepage'] = 'notify'
     return base.render(data, content=" ")
-
 
 
 # Upload snapshot
