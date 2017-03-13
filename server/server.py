@@ -58,7 +58,7 @@ def pollSCK(sckId):
     # SCK api
     try:
         req = requests.get('https://api.smartcitizen.me/devices/' + sckId).json()
-
+        
         data['sck_id'] = req['id']
         data['sck_name'] = req['name']
         data['sck_city'] = req['data']['location']['city']
