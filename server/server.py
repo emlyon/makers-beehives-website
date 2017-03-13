@@ -89,7 +89,7 @@ def home():
     base = jinja_env.get_template('base.html')
     dashboard = jinja_env.get_template('dashboard.html')
 
-    data = pollSCK(3723)
+    data = pollSCK(1616)
     data[ 'activepage' ] = 'dashboard'
     return base.render(data, content=dashboard.render(data))
 
