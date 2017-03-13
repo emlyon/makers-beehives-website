@@ -23,16 +23,16 @@ LONGPOLL_LIMIT = int(LONGPOLL_TIME/LONGPOLL_INTERVAL)
 
 # Flask Webserver
 webapp = Flask(__name__)
-webapp.config['UPLOAD_FOLDER'] = UPLOAD_PATH
+webapp.config[ 'UPLOAD_FOLDER' ] = UPLOAD_PATH
 
 # Dashboard Template
 from jinja2 import Environment, PackageLoader
 jinja_env = Environment(loader=PackageLoader('server', 'views'))
 
 # Check file upload
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+ALLOWED_EXTENSIONS = set([ 'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif' ])
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[ 1 ] in ALLOWED_EXTENSIONS
 
 # Shared Bool SETTER
 def setBool(name, boole):
@@ -52,31 +52,31 @@ setBool('clak', False)
 setBool('repeat', False)
 
 # Poll SCK
-def pollSCK():
+def pollSCK(id):
     data = {}
 
     # SCK api
     try:
-        req = requests.get('https://api.smartcitizen.me/devices/3723').json()
+        req = requests.get( 'https://api.smartcitizen.me/devices/' + str( id ) ).json()
 
-        data['sck_id'] = req['id']
-        data['sck_name'] = req['name']
-        data['sck_city'] = req['data']['location']['city']
-        data['sck_country'] = req['data']['location']['country']
-        data['sck_inout'] = req['data']['location']['exposure']
-        data['sck_lat'] = req['data']['location']['latitude']
-        data['sck_long'] = req['data']['location']['longitude']
+        data[ 'sck_id' ] = req[ 'id' ]
+        data[ 'sck_name' ] = req[ 'name' ]
+        data[ 'sck_city' ] = req[ 'data' ][ 'location' ][ 'city' ]
+        data[ 'sck_country' ] = req[ 'data' ][ 'location' ][ 'country' ]
+        data[ 'sck_inout' ] = req[ 'data' ][ 'location' ][ 'exposure' ]
+        data[ 'sck_lat' ] = req[ 'data' ][ 'location' ][ 'latitude' ]
+        data[ 'sck_long' ] = req[ 'data' ][ 'location' ][ 'longitude' ]
 
-        for sensor in req['data']['sensors']:
-            if sensor['id'] == 12: key = 'temp'
-            elif sensor['id'] == 13: key = 'humi'
-            elif sensor['id'] == 7: key = 'noise'
-            elif sensor['id'] == 14: key = 'light'
+        for sensor in req[ 'data' ][ 'sensors' ]:
+            if sensor[ 'id' ] == 12: key = 'temp'
+            elif sensor[ 'id' ] == 13: key = 'humi'
+            elif sensor[ 'id' ] == 7: key = 'noise'
+            elif sensor[ 'id' ] == 14: key = 'light'
             else: key = None
             if key:
-                sckdate = dateutil.parser.parse(req['last_reading_at'])
+                sckdate = dateutil.parser.parse(req[ 'last_reading_at' ])
                 sckdate += datetime.timedelta(hours=2)
-                data[key] = {'value': round(sensor['value'],2), 'updated': sckdate.strftime("%d/%m/%Y %H:%M:%S")}
+                data[ key ] = {'value': round(sensor[ 'value' ],2), 'updated': sckdate.strftime("%d/%m/%Y %H:%M:%S")}
 
         return data
 
@@ -89,8 +89,8 @@ def home():
     base = jinja_env.get_template('base.html')
     dashboard = jinja_env.get_template('dashboard.html')
 
-    data = pollSCK()
-    data['activepage'] = 'dashboard'
+    data = pollSCK(3723)
+    data[ 'activepage' ] = 'dashboard'
     return base.render(data, content=dashboard.render(data))
 
 
@@ -100,8 +100,8 @@ def maps():
     base = jinja_env.get_template('base.html')
     maps = jinja_env.get_template('maps.html')
 
-    data = pollSCK()
-    data['activepage'] = 'maps'
+    data = pollSCK(3723)
+    data[ 'activepage' ] = 'maps'
     return base.render(data, content=maps.render(data))
 
 # Maps
@@ -110,19 +110,19 @@ def notify():
     base = jinja_env.get_template('base.html')
 
     data = {}
-    data['activepage'] = 'notify'
+    data[ 'activepage' ] = 'notify'
     return base.render(data, content=" ")
 
 
 # Upload snapshot
-@webapp.route("/shot", methods=['POST'])
+@webapp.route("/shot", methods=[ 'POST' ])
 def snapshot_file():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'image' not in request.files:
             return 'ERROR: No file..'
 
-        file = request.files['image']
+        file = request.files[ 'image' ]
         if not file or file.filename == '' or not allowed_file(file.filename):
             return 'ERROR: Wrong file..'
 
@@ -131,7 +131,7 @@ def snapshot_file():
         file.save(filepath)
 
         # Remove older ones
-        existingfiles = []
+        existingfiles = [  ]
         for f in os.listdir(UPLOAD_PATH):
             if os.path.isfile(os.path.join(UPLOAD_PATH, f)):
                 existingfiles.append(f)
@@ -189,20 +189,20 @@ def wait_news():
         wait_news += 1
 
     # New Snaphsot available
-    if getBool('clak'):
-        setBool('clak', False)
-        print('clak')
+    if getBool( 'clak' ):
+        setBool( 'clak', False )
+        print( 'clak' )
 
         # Last snapshot
-        newest = max(glob.iglob(UPLOAD_PATH+'*.jpg'), key=os.path.getctime)
-        path, filename = os.path.split(newest)
+        newest = max( glob.iglob( UPLOAD_PATH + '*.jpg' ), key = os.path.getctime )
+        path, filename = os.path.split( newest )
 
-        snapdate = datetime.datetime.fromtimestamp(os.path.getmtime(newest)) + datetime.timedelta(hours=2)
-        data['snaptime'] = snapdate.strftime("%d/%m/%Y %H:%M:%S")
-        data['snapshot'] = '/static/upload/'+filename
+        snapdate = datetime.datetime.fromtimestamp( os.path.getmtime( newest ) ) + datetime.timedelta( hours = 2 )
+        data[ 'snaptime' ] = snapdate.strftime( "%d/%m/%Y %H:%M:%S" )
+        data[ 'snapshot' ] = '/static/upload/'+filename
 
-    data['recording'] = getBool('repeat')
-    return json.dumps(data)
+    data[ 'recording' ] = getBool( 'repeat' )
+    return json.dumps( data )
 
 
 if __name__ == "__main__":
