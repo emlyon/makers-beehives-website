@@ -52,12 +52,12 @@ setBool('clak', False)
 setBool('repeat', False)
 
 # Poll SCK
-def pollSCK():
+def pollSCK( sck_id ):
     data = {}
 
     # SCK api
     try:
-        req = requests.get('https://api.smartcitizen.me/devices/3723').json()
+        req = requests.get('https://api.smartcitizen.me/devices/'+str(sck_id)).json()
 
         data['sck_id'] = req['id']
         data['sck_name'] = req['name']
@@ -90,7 +90,7 @@ def home():
     base = jinja_env.get_template('base.html')
     dashboard = jinja_env.get_template('dashboard.html')
 
-    data = pollSCK()
+    data = pollSCK(3723)
     data['activepage'] = 'dashboard'
     return base.render(data, content=dashboard.render(data))
 
@@ -102,7 +102,7 @@ def maps():
     base = jinja_env.get_template('base.html')
     maps = jinja_env.get_template('maps.html')
 
-    data = pollSCK()
+    data = pollSCK(3723)
     data['activepage'] = 'maps'
     return base.render(data, content=maps.render(data))
 
