@@ -91,10 +91,7 @@ def home():
 
     data = pollSCK(3723)
     data['activepage'] = 'dashboard'
-    base.render(data, content=dashboard.render(data))
-
-    maps = jinja_env.get_template('maps.html')
-    return base.render(data, content2=maps.render(data))
+    return base.render(data, content=dashboard.render(data))
 
 
 # Maps
