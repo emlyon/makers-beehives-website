@@ -91,7 +91,7 @@ def home():
 
     data = pollSCK(3723)
     data['activepage'] = 'dashboard'
-    return base.render(data, content=dashboard.render(data))
+    return base.render(data)
 
 
 # Maps
