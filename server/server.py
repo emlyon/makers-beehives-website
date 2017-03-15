@@ -52,19 +52,19 @@ setBool('repeat', False)
 
 # Poll SCK
 def pollSCK( sck_id ):
-    data = {}
+    sck = {}
 
     # SCK api
     try:
         req = requests.get('https://api.smartcitizen.me/devices/'+str(sck_id)).json()
 
-        data['sck_id'] = req['id']
-        data['sck_name'] = req['name']
-        data['sck_city'] = req['data']['location']['city']
-        data['sck_country'] = req['data']['location']['country']
-        data['sck_inout'] = req['data']['location']['exposure']
-        data['sck_lat'] = req['data']['location']['latitude']
-        data['sck_long'] = req['data']['location']['longitude']
+        sck['sck_id'] = req['id']
+        sck['sck_name'] = req['name']
+        sck['sck_city'] = req['data']['location']['city']
+        sck['sck_country'] = req['data']['location']['country']
+        sck['sck_inout'] = req['data']['location']['exposure']
+        sck['sck_lat'] = req['data']['location']['latitude']
+        sck['sck_long'] = req['data']['location']['longitude']
 
         for sensor in req['data']['sensors']:
             if sensor['id'] == 12: key = 'temp'
@@ -77,7 +77,7 @@ def pollSCK( sck_id ):
                 sckdate += datetime.timedelta(hours=2)
                 data[key] = {'value': round(sensor['value'],2), 'updated': sckdate.strftime("%d/%m/%Y %H:%M:%S")}
 
-        return data
+        return sck
 
     except:
         return None
