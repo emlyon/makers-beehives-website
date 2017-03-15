@@ -85,12 +85,12 @@ def pollSCK( sck_id ):
 # Home
 @webapp.route("/")
 def home():
+    data = pollSCK(3723)
     base = jinja_env.get_template('base.html')
     # dashboard = jinja_env.get_template('dashboard.html')
 
-    data = pollSCK(3723)
     # data['activepage'] = 'dashboard'
-    return base.render(data)
+    return base.render(data=data)
 
 
 # Maps
