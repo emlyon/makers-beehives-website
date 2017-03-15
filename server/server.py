@@ -52,6 +52,7 @@ setBool('repeat', False)
 
 # Poll SCK
 def pollSCK( sck_id ):
+    
     sck = {}
 
     # SCK api
@@ -90,7 +91,7 @@ def home():
     dashboard = jinja_env.get_template('dashboard.html')
 
     # data['activepage'] = 'dashboard'
-    return base.render( data, content=dashboard.render(data) )
+    return base.render(data,content=dashboard.render(data))
 
 
 # Maps
