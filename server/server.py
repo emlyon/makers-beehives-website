@@ -87,6 +87,7 @@ def pollSCK( sck_id ):
 def home():
     base = jinja_env.get_template('base.html')
     dashboard = jinja_env.get_template('dashboard.html')
+    data['activepage'] = 'dashboard'
 
     data = pollSCK(3723)
     return base.render(data)
