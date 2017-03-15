@@ -58,6 +58,7 @@
 			</nav>
 			<br>
 
+			{% if sck_name is defined %}
 			<!-- {% for sensor in data %} -->
 			<div class="content">
 			    <div class="container-fluid">
@@ -222,6 +223,7 @@
 			    });
 			</script>
 			<!-- {% endfor %} -->
+			{% endif %}
 
 			<!-- <div id="map"></div> -->
 
