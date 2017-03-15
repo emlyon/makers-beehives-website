@@ -1,5 +1,4 @@
 # coding=utf-8
-
 # source venv/bin/activate
 
 import os, glob
@@ -36,15 +35,15 @@ def allowed_file(filename):
 
 # Shared Bool SETTER
 def setBool(name, boole):
-        if boole:
-            if not getBool(name):
-                os.mknod(name+".tmp")
-        elif getBool(name):
-            os.remove(name+".tmp")
+    if boole:
+        if not getBool(name):
+            os.mknod(name+".tmp")
+    elif getBool(name):
+        os.remove(name+".tmp")
 
 # Shared Bool GETTER
 def getBool(name):
-        return os.path.isfile(name+".tmp")
+    return os.path.isfile(name+".tmp")
 
 # Init
 setBool('clik', False)
@@ -90,31 +89,30 @@ def home():
     dashboard = jinja_env.get_template('dashboard.html')
 
     data = pollSCK(3723)
-    data['activepage'] = 'dashboard'
     return base.render(data)
 
 
 # Maps
-@webapp.route("/maps")
-def maps():
+# @webapp.route("/maps")
+# def maps():
+#
+#     base = jinja_env.get_template('base.html')
+#     maps = jinja_env.get_template('maps.html')
+#
+#     data = pollSCK(3723)
+#     data['activepage'] = 'maps'
+#     return base.render(data, content=maps.render(data))
 
-    base = jinja_env.get_template('base.html')
-    maps = jinja_env.get_template('maps.html')
 
-    data = pollSCK(3723)
-    data['activepage'] = 'maps'
-    return base.render(data, content=maps.render(data))
-
-
-# Maps
-@webapp.route("/notify")
-def notify():
-
-    base = jinja_env.get_template('base.html')
-
-    data = {}
-    data['activepage'] = 'notify'
-    return base.render(data, content=" ")
+# notify
+# @webapp.route("/notify")
+# def notify():
+#
+#     base = jinja_env.get_template('base.html')
+#
+#     data = {}
+#     data['activepage'] = 'notify'
+#     return base.render(data, content=" ")
 
 
 
