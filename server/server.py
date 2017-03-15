@@ -90,7 +90,7 @@ def home():
     # dashboard = jinja_env.get_template('dashboard.html')
 
     # data['activepage'] = 'dashboard'
-    return base.render(data=data)
+    return base.render(data)
 
 
 # Maps

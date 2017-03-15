@@ -46,11 +46,11 @@
 					        <span class="icon-bar"></span>
 					        <span class="icon-bar"></span>
 			      		</button>
-						{% if data is defined %}
+						{% if sck_name is defined %}
 						<div class="navbar-brand" href="#">
-							{{data.sck_name}} ({{data.sck_id}}) <br>
-							{{data.sck_city}}, {{data.sck_country}} ({{data.sck_inout}}) <br>
-							({{data.sck_lat}} , {{data.sck_long}})
+							{{sck_name}} ({{sck_id}}) <br>
+							{{sck_city}}, {{sck_country}} ({{sck_inout}}) <br>
+							({{sck_lat}} , {{sck_long}})
 						</div>
 						{% endif %}
 					</div>
@@ -58,8 +58,10 @@
 			</nav>
 			<br>
 
-			{% if data is defined %}
+			{% if sck_name is defined %}
 			<!-- {% for sensor in data %} -->
+			<!-- {% endfor %} -->
+			
 			<div class="content">
 			    <div class="container-fluid">
 			        <div class="row">
@@ -222,7 +224,6 @@
 			        newspoll();
 			    });
 			</script>
-			<!-- {% endfor %} -->
 			{% endif %}
 
 			<!-- <div id="map"></div> -->
@@ -232,7 +233,7 @@
 <!--
 			<script>
 			    $().ready(function(){
-			        demo.initGoogleMaps({{data.sck_lat}} , {{data.sck_long}});
+			        demo.initGoogleMaps({{sck_lat}} , {{sck_long}});
 			    });
 			</script> -->
 		</div>
