@@ -36,15 +36,15 @@ def allowed_file(filename):
 
 # Shared Bool SETTER
 def setBool(name, boole):
-        if boole:
-            if not getBool(name):
-                os.mknod(name+".tmp")
-        elif getBool(name):
-            os.remove(name+".tmp")
+    if boole:
+        if not getBool(name):
+            os.mknod(name+".tmp")
+    elif getBool(name):
+        os.remove(name+".tmp")
 
 # Shared Bool GETTER
 def getBool(name):
-        return os.path.isfile(name+".tmp")
+    return os.path.isfile(name+".tmp")
 
 # Init
 setBool('clik', False)
@@ -52,20 +52,20 @@ setBool('clak', False)
 setBool('repeat', False)
 
 # Poll SCK
-def pollSCK():
-    data = {}
+def pollSCK(sck_id):
+    sck = {}
 
     # SCK api
     try:
-        req = requests.get('https://api.smartcitizen.me/devices/3723').json()
+        req = requests.get('https://api.smartcitizen.me/devices/'+str(sck_id)).json()
 
-        data['sck_id'] = req['id']
-        data['sck_name'] = req['name']
-        data['sck_city'] = req['data']['location']['city']
-        data['sck_country'] = req['data']['location']['country']
-        data['sck_inout'] = req['data']['location']['exposure']
-        data['sck_lat'] = req['data']['location']['latitude']
-        data['sck_long'] = req['data']['location']['longitude']
+        sck['sck_id'] = req['id']
+        sck['sck_name'] = req['name']
+        sck['sck_city'] = req['data']['location']['city']
+        sck['sck_country'] = req['data']['location']['country']
+        sck['sck_inout'] = req['data']['location']['exposure']
+        sck['sck_lat'] = req['data']['location']['latitude']
+        sck['sck_long'] = req['data']['location']['longitude']
 
         for sensor in req['data']['sensors']:
             if sensor['id'] == 12: key = 'temp'
@@ -76,9 +76,11 @@ def pollSCK():
             if key:
                 sckdate = dateutil.parser.parse(req['last_reading_at'])
                 sckdate += datetime.timedelta(hours=2)
-                data[key] = {'value': round(sensor['value'],2), 'updated': sckdate.strftime("%d/%m/%Y %H:%M:%S")}
+                sck[key] = {'value': round(sensor['value'],2), 'updated': sckdate.strftime("%d/%m/%Y %H:%M:%S")}
 
-        return data
+        print "sck:"
+        print sck
+        return sck
 
     except:
         return None
@@ -90,8 +92,13 @@ def home():
     base = jinja_env.get_template('base.html')
     dashboard = jinja_env.get_template('dashboard.html')
 
-    data = pollSCK()
-    data['activepage'] = 'dashboard'
+    data = {}
+    data['scks'] = []
+    data['scks'].append( pollSCK( 3723 ) )
+    data['scks'].append( pollSCK( 3723 ) )
+    print "data:"
+    print data
+    # data['activepage'] = 'dashboard'
     return base.render(data, content=dashboard.render(data))
 
 

@@ -1,3 +1,5 @@
+{% for sck in scks %}
+
 <nav class="navbar navbar-transparent navbar-absolute">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -7,11 +9,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            {% if sck_name is defined %}
+            {% if sck.sck_name is defined %}
             <div class="navbar-brand" href="#">
-                {{sck_name}} ({{sck_id}}) <br>
-                {{sck_city}}, {{sck_country}} ({{sck_inout}}) <br>
-                ({{sck_lat}} , {{sck_long}})
+                {{sck.sck_name}} ({{sck.sck_id}}) <br>
+                {{sck.sck_city}}, {{sck.sck_country}} ({{sck.sck_inout}}) <br>
+                ({{sck.sck_lat}} , {{sck.sck_long}})
             </div>
             {% endif %}
         </div>
@@ -30,11 +32,11 @@
                     </div>
                     <div class="card-content">
                         <p class="category">Temperature</p>
-                        <h3 class="title">{{temp.value}}<small>°C</small></h3>
+                        <h3 class="title">{{sck.temp.value}}<small>°C</small></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">update</i> {{temp.updated}}
+                            <i class="material-icons">update</i> {{sck.temp.updated}}
                         </div>
                     </div>
                 </div>
@@ -46,11 +48,11 @@
                     </div>
                     <div class="card-content">
                         <p class="category">Humidité</p>
-                        <h3 class="title">{{humi.value}}<small>%</small></h3>
+                        <h3 class="title">{{sck.humi.value}}<small>%</small></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">update</i> {{humi.updated}}
+                            <i class="material-icons">update</i> {{sck.humi.updated}}
                         </div>
                     </div>
                 </div>
@@ -62,11 +64,11 @@
                     </div>
                     <div class="card-content">
                         <p class="category">Bruit</p>
-                        <h3 class="title">{{noise.value}}<small>dB</small></h3>
+                        <h3 class="title">{{sck.noise.value}}<small>dB</small></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">update</i> {{noise.updated}}
+                            <i class="material-icons">update</i> {{sck.noise.updated}}
                         </div>
                     </div>
                 </div>
@@ -78,17 +80,17 @@
                     </div>
                     <div class="card-content">
                         <p class="category">Luminosité</p>
-                        <h3 class="title">{{light.value}}<small>Lux</small></h3>
+                        <h3 class="title">{{sck.light.value}}<small>Lux</small></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">update</i> {{light.updated}}
+                            <i class="material-icons">update</i> {{sck.light.updated}}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-12 col-md-12 col-sm-12">
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card card-nav-tabs">
                     <div class="card-header" data-background-color="purple" style="min-height:75px">
                         <div class="nav-tabs-navigation">
@@ -126,11 +128,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
-
+<!--
 <script type="text/javascript">
     $(document).ready(function(){
         // Javascript method's body can be found in assets/js/demos.js
@@ -181,4 +183,5 @@
         }
         newspoll();
     });
-</script>
+</script> -->
+{% endfor %}
