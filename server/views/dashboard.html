@@ -1,14 +1,17 @@
 <script>
-    var arr = [];
+    var scks = [];
+    var sck;
     {% for sck in scks %}
+    sck = []
     {% for datum in sck %}
-    arr.push({
+    sck.push({
         date: '{{datum[ "date" ]}}',
         sensors: {{datum[ "sensors" ]}},
         gif: '{{datum[ "gif" ]}}'
     });
     {% endfor %}
+    scks.push( sck )
     {% endfor %}
 
-    console.log( arr )
+    console.log( scks )
 </script>

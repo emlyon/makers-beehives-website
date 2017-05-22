@@ -21,8 +21,7 @@ from jinja2 import Environment, PackageLoader
 jinja_env = Environment(loader=PackageLoader('server', 'views'))
 
 
-# sheetGids = [ '0', '276788529', '1484690480', '77643038' ]
-sheetGids = [ '0' ]
+sheetGids = [ '0', '276788529', '1484690480', '77643038' ]
 # Poll SpreadSheet
 def pollSheet(sheet_id):
     try:
