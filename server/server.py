@@ -12,7 +12,6 @@ from flask import Flask, request, redirect, url_for
 
 from StringIO import StringIO
 import requests
-sheetGids = [ '0', '276788529', '1484690480', '77643038' ]
 
 # Flask Webserver
 webapp = Flask(__name__)
@@ -22,6 +21,7 @@ from jinja2 import Environment, PackageLoader
 jinja_env = Environment(loader=PackageLoader('server', 'views'))
 
 
+sheetGids = [ '0', '276788529', '1484690480', '77643038' ]
 # Poll SpreadSheet
 def pollSheet(sheet_id):
     try:

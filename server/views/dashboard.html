@@ -1,4 +1,191 @@
 {% for sck in scks %}
-<p>test</p>
+<p>{{sck}}</p>
+<!--
 
+<nav class="navbar navbar-transparent navbar-absolute">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {% if sck.sck_name is defined %}
+            <div class="navbar-brand" href="#">
+                {{sck.sck_name}} ({{sck.sck_id}}) <br>
+                {{sck.sck_city}}, {{sck.sck_country}} ({{sck.sck_inout}}) <br>
+                ({{sck.sck_lat}} , {{sck.sck_long}})
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<br>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="orange">
+                        <i class="material-icons">cloud_circle</i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Temperature</p>
+                        <h3 class="title">{{sck.temp.value}}<small>°C</small></h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> {{sck.temp.updated}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="green">
+                        <i class="material-icons">grain</i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Humidité</p>
+                        <h3 class="title">{{sck.humi.value}}<small>%</small></h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> {{sck.humi.updated}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="red">
+                        <i class="material-icons">volume_up</i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Bruit</p>
+                        <h3 class="title">{{sck.noise.value}}<small>dB</small></h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> {{sck.noise.updated}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header" data-background-color="blue">
+                        <i class="material-icons">brightness_medium</i>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">Luminosité</p>
+                        <h3 class="title">{{sck.light.value}}<small>Lux</small></h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> {{sck.light.updated}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+ -->
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card card-nav-tabs">
+                    <div class="card-header" data-background-color="purple" style="min-height:75px">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title">
+                                    <i class="material-icons">linked_camera</i>
+                                </span>
+                                <ul class="nav nav-tabs navbar-right" data-tabs="tabs">
+                                    <li class="">
+                                        <a href="#snapshot" id="clicclac">
+                                            <i class="material-icons">camera</i>
+                                            Snapshot
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+
+                                    <li class="">
+                                        <a href="#record" id="record">
+                                            <i class="material-icons">save</i>
+                                            Record
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <img id="snapshot" src="" />
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i>
+                            <div id="snaptime">...</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!--
+        </div>
+    </div>
+</div>
+-->
+<!--
+<script type="text/javascript">
+    $(document).ready(function(){
+        // Javascript method's body can be found in assets/js/demos.js
+        demo.initDashboardPageCharts();
+
+        // REFRESH: 1 minute
+        function refresh() {
+            window.location.reload(true);
+        }
+        setTimeout(refresh, 60000);
+
+        // SNAPSHOT Clik
+        $('#clicclac').on('click',function() {
+            $.ajax({
+                url: '/clik/0',
+                success: function(data) {
+                    if (data == 'OK') console.log('clik');
+                }
+            });
+        });
+
+        // RECORD Clik
+        $('#record').on('click',function() {
+            if ($(this).parent().hasClass('active')) recurl = '/clik/0';
+            else recurl = '/clik/1';
+            $.ajax({
+                url: recurl,
+                success: function(data) {
+                    if (data == 'OK') console.log('clik');
+                }
+            });
+        });
+
+        // WAIT for news
+        function newspoll() {
+            $.ajax({
+                url: '/news',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data)
+                    if (data['snapshot']) $("#snapshot").attr("src", data['snapshot']);
+                    if (data['snaptime']) $("#snaptime").html(data['snaptime']);
+                    if (data['recording']) $("#record").parent().addClass('active');
+                    else $("#record").parent().removeClass('active');
+                },
+                complete: newspoll
+            });
+        }
+        newspoll();
+    });
+</script> -->
 {% endfor %}
