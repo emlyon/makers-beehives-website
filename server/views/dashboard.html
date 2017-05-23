@@ -1,17 +1,36 @@
 <script>
-    var scks = [];
-    var sck;
-    {% for sck in scks %}
-    sck = []
-    {% for datum in sck %}
-    sck.push({
+window.addEventListener( 'load', () => {
+    const container = document.querySelector( '.main-panel' );
+
+    const beehives = [];
+    let beehive;
+    {% for beehive in beehives %}
+    beehive = []
+    {% for datum in beehive %}
+    beehive.push( {
         date: '{{datum[ "date" ]}}',
         sensors: {{datum[ "sensors" ]}},
         gif: '{{datum[ "gif" ]}}'
-    });
+    } );
     {% endfor %}
-    scks.push( sck )
+    beehives.push( beehive );
     {% endfor %}
 
-    console.log( scks )
+    const indexes = new Array( beehives.length ).fill( 0 );
+
+    beehives.forEach( ( bh, i ) => {
+        let div = document.createElement( 'div' );
+        container.appendChild( div );
+
+        let h3 = document.createElement( 'h3' );
+        h3.innerText = 'Beehive #' + i;
+        div.appendChild( h3 );
+
+        let img = new Image();
+        img.src = bh[ indexes[ i ] ].gif;
+        div.appendChild( img );
+
+        div.appendChild( document.createElement( 'hr' ) );
+    } );
+} );
 </script>

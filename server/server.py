@@ -56,9 +56,9 @@ def home():
     dashboard = jinja_env.get_template('dashboard.html')
 
     data = {}
-    data['scks'] = []
+    data['beehives'] = []
     for gid in sheetGids:
-        data['scks'].append( pollSheet( gid ) )
+        data['beehives'].append( pollSheet( gid ) )
     # data['activepage'] = 'dashboard'
     return base.render(data, content=dashboard.render(data))
 
