@@ -1,8 +1,7 @@
 <script>
 window.addEventListener( 'load', () => {
-    const container = document.querySelector( '.main-panel' );
-
     const beehives = [];
+
     let beehive;
     {% for beehive in beehives %}
     beehive = []
@@ -16,21 +15,53 @@ window.addEventListener( 'load', () => {
     beehives.push( beehive );
     {% endfor %}
 
+    console.log( beehives );
+
     const indexes = new Array( beehives.length ).fill( 0 );
 
     beehives.forEach( ( bh, i ) => {
-        let div = document.createElement( 'div' );
-        container.appendChild( div );
+        let div = document.querySelector( '#beehive' + i );
 
         let h3 = document.createElement( 'h3' );
         h3.innerText = 'Beehive #' + i;
+        h3.classList.add( 'red-text' );
+        h3.classList.add( 'text-lighten-2' )
         div.appendChild( h3 );
 
-        let img = new Image();
-        img.src = bh[ indexes[ i ] ].gif;
-        div.appendChild( img );
+        let date = document.createElement( 'p' );
+        date.classList.add( 'last-update' )
+        date.innerText =  `Last update: ${bh[ 0 ].date}`;
+        div.appendChild( date );
 
         div.appendChild( document.createElement( 'hr' ) );
+
+        let grid = document.createElement( 'div' );
+        grid.classList.add( 'row' );
+        div.appendChild( grid );
+
+        bh.forEach( ( d, i ) => {
+            grid.innerHTML +=
+                `<div class="col s12 m6 l4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img class="materialboxed" data-caption="${d.date}   light: ${d.sensors.light} | temperature: ${d.sensors.temp} | noise: ${d.sensors.noise} | humidity: ${d.sensors.hum} | co: ${d.sensors.co} | no2: ${d.sensors.no2}" src="${d.gif || 'http://placehold.it/800x533/000000/ee6e73?text=No+light'}">
+                            <span class="card-title">${d.date}</span>
+                        </div>
+                        <div class="card-content red-text text-lighten-2">
+                            <p class="grey-text text-darken-2">
+                                light: ${d.sensors.light}<br>
+                                temperature: ${d.sensors.temp}<br>
+                                noise: ${d.sensors.noise}<br>
+                                humidity: ${d.sensors.hum}<br>
+                                co: ${d.sensors.co}<br>
+                                no2: ${d.sensors.no2}
+                            </p>
+                        </div>
+                    </div>
+                </div>`;
+        } );
+
+        $('.materialboxed').materialbox();
     } );
 } );
 </script>
