@@ -35,6 +35,13 @@ window.addEventListener( 'load', () => {
 
         div.appendChild( document.createElement( 'hr' ) );
 
+        let svg = d3.select( div ).append( 'svg' );
+        console.log( svg )
+        svg.attr("width", div.style.width + 'px' );
+        svg.attr("height", '300px' );
+
+        div.appendChild( document.createElement( 'hr' ) );
+
         let grid = document.createElement( 'div' );
         grid.classList.add( 'row' );
         div.appendChild( grid );
