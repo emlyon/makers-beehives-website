@@ -11,6 +11,7 @@ window.addEventListener( 'load', () => {
         let tmp = formatedDate.split( ' ' );
         let tmp2 = tmp[ 0 ].split( '-' );
         formatedDate = tmp2[ 2 ] + '/' + tmp2[ 1 ] + '/' + tmp2[ 0 ] + ' ' + tmp[ 1 ];
+    }
     beehive.push( {
         date: formatedDate,
         sensors: {{datum[ "sensors" ]}},
