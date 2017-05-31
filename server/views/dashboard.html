@@ -2,12 +2,17 @@
 window.addEventListener( 'load', () => {
     const beehives = [];
 
-    let beehive;
+    let beehive, formatedDate;
     {% for beehive in beehives %}
     beehive = []
     {% for datum in beehive %}
+    formatedDate = '{{datum[ "date" ]}}';
+    if( formatedDate.split('-').length > 1 ){
+        let tmp = formatedDate.split( ' ' );
+        let tmp2 = tmp[ 0 ].split( '-' );
+        formatedDate = tmp2[ 2 ] + '/' + tmp2[ 1 ] + '/' + tmp2[ 0 ] + ' ' + tmp[ 1 ];
     beehive.push( {
-        date: '{{datum[ "date" ]}}',
+        date: formatedDate,
         sensors: {{datum[ "sensors" ]}},
         gif: '{{datum[ "gif" ]}}'
     } );
@@ -47,10 +52,10 @@ window.addEventListener( 'load', () => {
         div.appendChild( grid );
 
         bh.forEach( ( d, i ) => {
-            let tmp = `<div class="col s12 m6 l4"><div class="card hoverable"><div class="card-image">`;
+            let tmp = `<div class="col s12 m6 l4"><div class="card z-depth-4 hoverable"><div class="card-image">`;
             tmp += i < 6 ?
                 `<img class="materialboxed" data-caption="${d.date} light: ${d.sensors.light} | temperature: ${d.sensors.temp} | noise: ${d.sensors.noise} | humidity: ${d.sensors.hum} | co: ${d.sensors.co} | no2: ${d.sensors.no2}" src="${d.gif || 'http://placehold.it/800x533/000000/000000?text=Night'}">` :
-                `<img class="lazy materialboxed" data-caption="${d.date} light: ${d.sensors.light} | temperature: ${d.sensors.temp} | noise: ${d.sensors.noise} | humidity: ${d.sensors.hum} | co: ${d.sensors.co} | no2: ${d.sensors.no2}" data-original="${d.gif || 'http://placehold.it/800x533/000000/000000?text=Night'}">`;
+                `<img class="lazy materialboxed" data-caption="${d.date} light: ${d.sensors.light} | temperature: ${d.sensors.temp} | noise: ${d.sensors.noise} | humidity: ${d.sensors.hum} | co: ${d.sensors.co} | no2: ${d.sensors.no2}" data-original="${d.gif || 'http://placehold.it/800x533/000000/000000?text=Night'}" src="http://placehold.it/800x533/000000/000000?text=Night">`;
 
             tmp += `<span class="card-title">${d.date}</span>
                         </div>
