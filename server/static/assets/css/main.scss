@@ -1,6 +1,27 @@
-a.brand-logo{
-    margin-left: 15px;
-    font-weight: 500;
+nav{
+    a.brand-logo{
+        margin-left: 15px;
+        font-weight: 500;
+    }
+
+    .right span{
+        font-weight: 300;
+    }
+}
+
+#home{
+    .card{
+        margin-top: 30px;
+        padding: 20px;
+
+        h3{
+            margin-top: -5px;
+        }
+    }
+
+    #map{
+        height: 400px;
+    }
 }
 
 .beehive{
@@ -13,6 +34,7 @@ a.brand-logo{
     }
 
     svg{
+        width: 100%;
         background-color: #ee6e73
     }
 }

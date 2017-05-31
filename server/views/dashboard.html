@@ -37,8 +37,8 @@ window.addEventListener( 'load', () => {
 
         let svg = d3.select( div ).append( 'svg' );
         console.log( svg )
-        svg.attr("width", div.style.width + 'px' );
-        svg.attr("height", '300px' );
+        svg.attr( "width", div.style.width );
+        svg.attr( "height", '300px' );
 
         div.appendChild( document.createElement( 'hr' ) );
 
@@ -49,9 +49,9 @@ window.addEventListener( 'load', () => {
         bh.forEach( ( d, i ) => {
             grid.innerHTML +=
                 `<div class="col s12 m6 l4">
-                    <div class="card">
+                    <div class="card hoverable">
                         <div class="card-image">
-                            <img class="materialboxed" data-caption="${d.date}   light: ${d.sensors.light} | temperature: ${d.sensors.temp} | noise: ${d.sensors.noise} | humidity: ${d.sensors.hum} | co: ${d.sensors.co} | no2: ${d.sensors.no2}" src="${d.gif || 'http://placehold.it/800x533/000000/ee6e73?text=No+light'}">
+                            <img class="materialboxed" data-caption="${d.date}   light: ${d.sensors.light} | temperature: ${d.sensors.temp} | noise: ${d.sensors.noise} | humidity: ${d.sensors.hum} | co: ${d.sensors.co} | no2: ${d.sensors.no2}" src="${d.gif || 'http://placehold.it/800x533/000000/000000?text=Night'}">
                             <span class="card-title">${d.date}</span>
                         </div>
                         <div class="card-content red-text text-lighten-2">
