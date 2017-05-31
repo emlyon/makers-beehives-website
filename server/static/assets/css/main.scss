@@ -4,8 +4,14 @@ nav{
         font-weight: 500;
     }
 
-    .right span{
-        font-weight: 300;
+    .right{
+        a{
+            font-weight: 500;
+        }
+
+        span{
+            font-weight: 300;
+        }
     }
 }
 
@@ -25,6 +31,7 @@ nav{
 }
 
 .beehive{
+    background: white;
     margin-top: 20px;
     padding: 0px 20px 0px 20px;
 
@@ -35,6 +42,10 @@ nav{
 
     svg{
         width: 100%;
-        background-color: #ee6e73
+        background-color: #e64a19;
+    }
+
+    img{
+        min-height: 1px;
     }
 }
