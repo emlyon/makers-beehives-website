@@ -21,7 +21,7 @@ document.querySelectorAll( '.tab>a' ).forEach( ( tab, i ) => {
         let beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
         tab.addEventListener( 'click', e => {
             if( visitedTabs[ i ] == 0 ){
-                firstVisit( beehiveIndex  );
+                firstVisit( beehiveIndex );
                 visitedTabs[ i ] = 1;
             }
             onEachVisit( beehiveIndex );
@@ -88,14 +88,16 @@ const onEachVisit = bhIndex => {
 
     setTimeout( () => {
         let svg = d3.select( '#svg' + bhIndex ),
-            margin = { top: 20, right: 80, bottom: 30, left: 40 },
+            margin = { top: 20, right: 30, bottom: 20, left: 0 },
             width = parseInt( svg.style( 'width' ) ) - margin.left - margin.right,
             height = parseInt( svg.style( 'height' ) ) - margin.top - margin.bottom;
             g = svg.append( 'g' ).attr( 'transform', 'translate(' + margin.left + ',' + margin.top + ')' );
 
         // console.log( width, height );
 
-        let bh = beehives[ bhIndex ];
+        const parseTime = d3.timeParse( '%d/%m/%Y %H:%M:%S' );
+
+        let bh = beehives[ bhIndex ].slice( 0, 72 );
         //console.log( bh );
 
         let sensorsNames = [ 'light', 'temp', 'noise', 'hum', 'co', 'no2' ];
@@ -103,48 +105,83 @@ const onEachVisit = bhIndex => {
             return {
                 id: sn,
                 values: bh.map( d => {
-                    return { date: d.date, value: parseFloat( d.sensors[ sn ] ) };
+                    return { date: parseTime( d.date ), value: parseFloat( d.sensors[ sn ] ) };
                 } )
             };
         } );
-        console.log( sensors );
+        // console.log( sensors );
 
-        const parseTime = d3.timeParse( '%d/%m/%Y %H:%M:%S' );
-
-        let x = d3.scaleTime().range( [ 0, width ] ).domain( d3.extent( bh, d => d.date ) ),
+        let x = d3.scaleTime().range( [ 0, width ] ).domain( d3.extent( bh, d => parseTime( d.date ) ) ),
             y = d3.scaleLinear().range( [ height, 0 ] ),
             z = d3.scaleOrdinal( d3.schemeCategory10 );
 
         z.domain( sensorsNames );
 
         var line = d3.line()
+            // .curve( d3.curveLinear )
+            // .curve( d3.curveStep )
             .curve( d3.curveBasis )
             .x( d => x( d.date ) )
-            .y( d => y( d.temperature ) );
-
-        function type( d, _, columns ) {
-            d.date = parseTime( d.date );
-            for( var i = 1, n = columns.length, c; i < n; ++ i ) d[ c = columns[ i ] ] = + d[ c ];
-            return d;
-        }
+            .y( d => y( d.value ) );
 
         g.append( 'g' )
-              .attr( "class", "axis axis--x" )
-              .attr( "transform", "translate(0," + height + ")" )
+              .attr( 'class', 'axis axis--x' )
+              .attr( 'transform', 'translate( 0,' + height + ')' )
               .call( d3.axisBottom( x ) );
 
-        g.append( "g" )
-            .attr( "class", "axis axis--y" )
-            .call( d3.axisLeft(y) )
-            .append( "text")
-            .attr( "transform", "rotate(-90)")
-            .attr( "y", 6)
-            .attr( "dy", "0.71em")
-            .attr( "fill", "#000");
+        // g.append( 'g' )
+        //     .attr( 'class', 'axis axis--y' )
+        //     .call( d3.axisLeft( y ) )
+        //     .append( 'text' )
+        //     .attr( 'transform', 'rotate(-90)' )
+        //     .attr( 'y', 6 )
+        //     .attr( 'dy', '0.71em' )
+        //     .attr( 'fill', '#000' );
 
-        var sensor = g.selectAll( ".sensor" )
+        let sensor = g.selectAll( '.sensor' )
             .data( sensors )
-            .enter().append( "g" )
-            .attr( "class", "sensor" );
-    }, 50 );
+            .enter().append( 'g' )
+            .attr( 'class', 'sensor' );
+
+        let hover = d => {
+            sensor.style( 'opacity', 1.0 ).transition().style( 'opacity', s => s.id === d.id ? 1.0 : 0.15 );
+        };
+
+        let out = d => {
+            sensor.transition().style( 'opacity', 1.0 );
+        };
+
+        sensor.append( 'path' )
+            .attr( 'class', 'line' )
+            .attr( 'd', d => {
+                y.domain( d3.extent( d.values, s => s.value ) );
+                return line( d.values );
+            } )
+            .style( 'stroke', d => z( d.id ) )
+            .on( 'mouseover', hover )
+            .on( 'mouseleave', out );
+
+        sensor.append( 'text' )
+            .attr( 'transform', d => {
+                y.domain( d3.extent( d.values, s => s.value ) );
+                return 'translate(' + x( d.values[ 0 ].date ) + ',' + y( d.values[ 0 ].value ) + ')';
+            } )
+            .attr( 'x', 3 )
+            .attr( 'dy', '0.35em' )
+            .style( 'font', '10px sans-serif' )
+            .style( 'fill', d => z( d.id ) )
+            .text( d => d.id )
+            .on( 'mouseover', hover )
+            .on( 'mouseleave', out );
+
+        document.querySelectorAll
+    }, 20 );
 };
+
+window.addEventListener( 'resize', e => {
+    let tab = document.querySelector( '.active' );
+    if( tab.href.indexOf( 'home' ) == -1 ){
+        let beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
+        onEachVisit( beehiveIndex );
+    }
+} );
