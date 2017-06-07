@@ -43,7 +43,7 @@ def pollSheet(sheet_id):
             d[ 'sensors' ] = d[ 'sensors' ][ 1 : len( d[ 'sensors' ] ) - 1 ]
             d[ 'gif' ] = tmp[ len( tmp ) - 1 ]
             data[ i ] = d
-            print d
+            # print d
 
         return data
     except:

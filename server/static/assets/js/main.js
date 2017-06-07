@@ -159,17 +159,17 @@ const onEachVisit = bhIndex => {
         sensor.select( 'path' )
             .transition()
             .duration( 2000 )
-            .delay( ( d, i ) => 1000 + i * 2000 )
+            .delay( ( d, i ) => 1000 + i * 2500 )
             .attr( 'stroke-dashoffset',  0 )
             .on( 'start', ( d, i ) => {
                 sensor.filter( ( s, j ) => j === i ).style( 'opacity', 1.0 )
             } )
             .on( 'end', ( d, i ) => {
                 if( i !== sensorsNames.length - 1 ) {
-                    sensor.filter( ( s, j ) => j === i ).transition().style( 'opacity', 0.15 );
+                    sensor.filter( ( s, j ) => j === i ).transition().delay( 500 ).style( 'opacity', 0.15 );
                 }
                 else{
-                    sensor.transition().style( 'opacity', 1.0 );
+                    sensor.transition().delay( 500 ).duration( 2000 ).style( 'opacity', 1.0 );
                 }
             } );
 
