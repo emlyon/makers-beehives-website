@@ -88,7 +88,7 @@ const onEachVisit = bhIndex => {
 
     setTimeout( () => {
         let svg = d3.select( '#svg' + bhIndex ),
-            margin = { top: 20, right: 30, bottom: 20, left: 0 },
+            margin = { top: 20, right: 30, bottom: 30, left: 0 },
             width = parseInt( svg.style( 'width' ) ) - margin.left - margin.right,
             height = parseInt( svg.style( 'height' ) ) - margin.top - margin.bottom;
             g = svg.append( 'g' ).attr( 'transform', 'translate(' + margin.left + ',' + margin.top + ')' );
@@ -123,14 +123,15 @@ const onEachVisit = bhIndex => {
             .y( d => y( d.value ) );
 
         g.append( 'g' )
-              .attr( 'class', 'axis axis--x' )
-              .attr( 'transform', 'translate( 0,' + height + ')' )
-              .call( d3.axisBottom( x ) );
+            .attr( 'class', 'axis axis--x' )
+            .attr( 'transform', 'translate( 0,' + height + ')' )
+            .call( d3.axisBottom( x ).ticks( 3 ) );
 
         let sensor = g.selectAll( '.sensor' )
             .data( sensors )
             .enter().append( 'g' )
-            .attr( 'class', 'sensor' );
+            .attr( 'class', 'sensor' )
+            .style( 'opacity', 0.15 );
 
         let hover = d => {
             sensor.style( 'opacity', 1.0 ).transition().style( 'opacity', s => s.id === d.id ? 1.0 : 0.15 );
@@ -147,8 +148,30 @@ const onEachVisit = bhIndex => {
                 return line( d.values );
             } )
             .style( 'stroke', d => z( d.id ) )
+            .attr( 'stroke-dasharray', function( d ){
+                d.totalLength = this.getTotalLength();
+                return d.totalLength + " " + d.totalLength;
+            } )
+            .attr( 'stroke-dashoffset',  d => -d.totalLength )
             .on( 'mouseover', hover )
             .on( 'mouseleave', out );
+
+        sensor.select( 'path' )
+            .transition()
+            .duration( 2000 )
+            .delay( ( d, i ) => 1000 + i * 2000 )
+            .attr( 'stroke-dashoffset',  0 )
+            .on( 'start', ( d, i ) => {
+                sensor.filter( ( s, j ) => j === i ).style( 'opacity', 1.0 )
+            } )
+            .on( 'end', ( d, i ) => {
+                if( i !== sensorsNames.length - 1 ) {
+                    sensor.filter( ( s, j ) => j === i ).transition().style( 'opacity', 0.15 );
+                }
+                else{
+                    sensor.transition().style( 'opacity', 1.0 );
+                }
+            } );
 
         sensor.append( 'text' )
             .attr( 'transform', d => {
