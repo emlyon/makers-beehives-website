@@ -118,9 +118,7 @@ const onEachVisit = bhIndex => {
         z.domain( sensorsNames );
 
         var line = d3.line()
-            // .curve( d3.curveLinear )
-            // .curve( d3.curveStep )
-            .curve( d3.curveBasis )
+            .curve( d3.curveStep )
             .x( d => x( d.date ) )
             .y( d => y( d.value ) );
 
@@ -128,15 +126,6 @@ const onEachVisit = bhIndex => {
               .attr( 'class', 'axis axis--x' )
               .attr( 'transform', 'translate( 0,' + height + ')' )
               .call( d3.axisBottom( x ) );
-
-        // g.append( 'g' )
-        //     .attr( 'class', 'axis axis--y' )
-        //     .call( d3.axisLeft( y ) )
-        //     .append( 'text' )
-        //     .attr( 'transform', 'rotate(-90)' )
-        //     .attr( 'y', 6 )
-        //     .attr( 'dy', '0.71em' )
-        //     .attr( 'fill', '#000' );
 
         let sensor = g.selectAll( '.sensor' )
             .data( sensors )
