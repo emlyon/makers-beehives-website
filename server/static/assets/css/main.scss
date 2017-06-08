@@ -1,7 +1,22 @@
 nav{
+    .nav-wrapper{
+        padding-top: 10px;
+        padding-bottom: 20px;
+
+        li{
+            a{
+                color: #e2001a;
+            }
+        }
+    }
+
     a.brand-logo{
         margin-left: 15px;
         font-weight: 500;
+
+        img{
+            max-width: 100%;
+        }
     }
 
     .right{
@@ -16,6 +31,10 @@ nav{
 }
 
 #home{
+    img{
+        min-width: 100%;
+    }
+
     .card{
         margin-top: 30px;
         padding: 20px;

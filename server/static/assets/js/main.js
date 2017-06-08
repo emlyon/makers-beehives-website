@@ -1,4 +1,7 @@
-const resizeCards = e => {
+const resizeElements = e => {
+    d3.select( '.nav-wrapper' )
+        .style( 'height', ( parseInt( d3.select( '.brand-logo>img' ).style( 'height' ) ) + 20 ) + 'px' );
+
     const cards = document.querySelectorAll( '#home .card' );
     cards.forEach( d => $( d ).height( 'auto' ) );
 
@@ -11,8 +14,8 @@ const resizeCards = e => {
     cards.forEach( d => $( d ).height( h + 'px' ) );
 };
 
-window.addEventListener( 'load', resizeCards );
-window.addEventListener( 'resize', resizeCards );
+window.addEventListener( 'load', resizeElements );
+window.addEventListener( 'resize', resizeElements );
 
 const visitedTabs = new Array( 5 ).fill( 0 );
 
