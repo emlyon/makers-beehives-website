@@ -1,6 +1,6 @@
 const resizeElements = e => {
     d3.select( '.nav-wrapper' )
-        .style( 'height', ( parseInt( d3.select( '.brand-logo>img' ).style( 'height' ) ) + 20 ) + 'px' );
+        .style( 'height', d3.select( '.brand-logo>svg' ).style( 'height' ) );
 
     const cards = document.querySelectorAll( '#home .card' );
     cards.forEach( d => $( d ).height( 'auto' ) );

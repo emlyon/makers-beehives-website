@@ -1,8 +1,5 @@
 nav{
     .nav-wrapper{
-        padding-top: 10px;
-        padding-bottom: 20px;
-
         li{
             a{
                 color: #e2001a;
@@ -14,8 +11,8 @@ nav{
         margin-left: 15px;
         font-weight: 500;
 
-        img{
-            max-width: 100%;
+        svg, img{
+            height: 150px;
         }
     }
 
