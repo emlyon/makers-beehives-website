@@ -17,23 +17,50 @@ const resizeElements = e => {
 window.addEventListener( 'load', resizeElements );
 window.addEventListener( 'resize', resizeElements );
 
+const beehives = [];
+let beehiveIndex;
+
+window.addEventListener( 'load', e => {
+    Tabletop.init( {
+        key: '1cJRaDxrSRpd754ncW69N8Kk84PlfYFvD9PlvOZIjPls',
+        simpleSheet: false,
+        prettyColumnNames: false,
+        callback: ( data, tabletop ) => {
+            tabletop.modelNames.sort().forEach( name => {
+                beehives.push( tabletop.models[ name ].toArray().map( d => {
+                    return {
+                        date: d[ 0 ],
+                        sensors: JSON.parse( d[ 1 ] ),
+                        gif: d[ 2 ]
+                    };
+                } ) );
+            } );
+            console.log( beehives );
+        }
+    } );
+} );
+
 const visitedTabs = new Array( 5 ).fill( 0 );
 
 document.querySelectorAll( '.tab>a' ).forEach( ( tab, i ) => {
     if( tab.href.indexOf( 'home' ) == -1 ){
-        let beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
         tab.addEventListener( 'click', e => {
+            beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
+            console.log( beehiveIndex );
             if( visitedTabs[ i ] == 0 ){
-                firstVisit( beehiveIndex );
                 visitedTabs[ i ] = 1;
+                firstVisit( beehiveIndex );
             }
-            onEachVisit( beehiveIndex );
+            else{
+                onEachVisit( beehiveIndex );
+            }
         } );
     }
 } );
 
 const firstVisit = bhIndex => {
     let bh = beehives[ bhIndex ];
+    console.log( bh );
     let div = document.querySelector( '#beehive' + bhIndex );
 
     let h3 = document.createElement( 'h3' );
@@ -82,8 +109,10 @@ const firstVisit = bhIndex => {
         grid.innerHTML += tmp;
     } );
 
-    $('.materialboxed').materialbox();
+    $( '.materialboxed' ).materialbox();
     $( 'img.lazy' ).lazyload();
+
+    onEachVisit( beehiveIndex )
 };
 
 const onEachVisit = bhIndex => {
@@ -188,8 +217,6 @@ const onEachVisit = bhIndex => {
             .text( d => d.id )
             .on( 'mouseover', hover )
             .on( 'mouseleave', out );
-
-        document.querySelectorAll
     }, 20 );
 };
 
