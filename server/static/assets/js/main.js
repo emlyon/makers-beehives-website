@@ -18,7 +18,7 @@ window.addEventListener( 'load', resizeElements );
 window.addEventListener( 'resize', resizeElements );
 
 const beehives = [];
-let beehiveIndex;
+let beehiveIndex, dataLoaded = false;
 
 window.addEventListener( 'load', e => {
     Tabletop.init( {
@@ -35,6 +35,7 @@ window.addEventListener( 'load', e => {
                     };
                 } ) );
             } );
+            dataLoaded = true;
             console.log( beehives );
         }
     } );
@@ -45,14 +46,16 @@ const visitedTabs = new Array( 5 ).fill( 0 );
 document.querySelectorAll( '.tab>a' ).forEach( ( tab, i ) => {
     if( tab.href.indexOf( 'home' ) == -1 ){
         tab.addEventListener( 'click', e => {
-            beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
-            console.log( beehiveIndex );
-            if( visitedTabs[ i ] == 0 ){
-                visitedTabs[ i ] = 1;
-                firstVisit( beehiveIndex );
-            }
-            else{
-                onEachVisit( beehiveIndex );
+            if( dataLoaded ){
+                beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
+                // console.log( beehiveIndex );
+                if( visitedTabs[ i ] == 0 ){
+                    visitedTabs[ i ] = 1;
+                    firstVisit( beehiveIndex );
+                }
+                else{
+                    onEachVisit( beehiveIndex );
+                }
             }
         } );
     }
@@ -60,7 +63,7 @@ document.querySelectorAll( '.tab>a' ).forEach( ( tab, i ) => {
 
 const firstVisit = bhIndex => {
     let bh = beehives[ bhIndex ];
-    console.log( bh );
+    // console.log( bh );
     let div = document.querySelector( '#beehive' + bhIndex );
 
     let h3 = document.createElement( 'h3' );
@@ -77,6 +80,25 @@ const firstVisit = bhIndex => {
     div.appendChild( document.createElement( 'hr' ) );
 
     let svg = d3.select( div ).append( 'svg' ).attr( 'id', 'svg' + bhIndex );
+
+    let buttons = [], actives = [];
+    for( let sensor in bh[ 0 ].sensors ){
+        if( '' + sensor !== 'bat' && '' + sensor !== 'panel' ){
+            let btn = document.createElement( 'a' );
+            btn.classList.add( 'waves-effect', 'waves-light', 'orange', 'btn', 'col', 's6', 'm4', 'l2' );
+            btn.innerText = sensor;
+            btn.id = 'btn-' + bhIndex + '-' + btn.innerText;
+            actives.push( btn.innerText );
+            buttons.push( btn );
+        }
+    }
+    let btnsRow = document.createElement( 'div' );
+    btnsRow.classList.add( 'row' );
+    buttons.forEach( btn => {
+        btnsRow.appendChild( btn );
+    } );
+    div.appendChild( btnsRow );
+
 
     div.appendChild( document.createElement( 'hr' ) );
 
@@ -112,7 +134,20 @@ const firstVisit = bhIndex => {
     $( '.materialboxed' ).materialbox();
     $( 'img.lazy' ).lazyload();
 
-    onEachVisit( beehiveIndex )
+    onEachVisit( beehiveIndex );
+
+    buttons.forEach( btn => {
+        btn.addEventListener( 'click', e => {
+            btn.classList.toggle( 'darken-4' );
+            let id = '#g-' + bhIndex + '-' + btn.innerText.toLowerCase();
+            d3.select( id )
+                .transition()
+                .duration( 500 )
+                .style( 'opacity', function( d ){
+                    return btn.classList.contains( 'darken-4') ? 1.0 : 0.0;
+                } );
+        } );
+    } );
 };
 
 const onEachVisit = bhIndex => {
@@ -162,15 +197,26 @@ const onEachVisit = bhIndex => {
         let sensor = g.selectAll( '.sensor' )
             .data( sensors )
             .enter().append( 'g' )
+            .attr( 'id', d => 'g-' + bhIndex + '-' + d.id )
             .attr( 'class', 'sensor' )
             .style( 'opacity', 0.15 );
 
         let hover = d => {
-            sensor.style( 'opacity', 1.0 ).transition().style( 'opacity', s => s.id === d.id ? 1.0 : 0.15 );
+            sensor.style( 'opacity', 1.0 ).transition().style( 'opacity', s => {
+                if( s.id === d.id ){
+                    document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.add( 'darken-4' );
+                }
+                else{
+                    document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.remove( 'darken-4' );
+                }
+                return s.id === d.id ? 1.0 : 0.15
+            } );
         };
 
         let out = d => {
-            sensor.transition().style( 'opacity', 1.0 );
+            sensor.each( s => document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.add( 'darken-4' ) )
+                .transition()
+                .style( 'opacity', 1.0 );
         };
 
         sensor.append( 'path' )
@@ -182,7 +228,7 @@ const onEachVisit = bhIndex => {
             .style( 'stroke', d => z( d.id ) )
             .attr( 'stroke-dasharray', function( d ){
                 d.totalLength = this.getTotalLength();
-                return d.totalLength + " " + d.totalLength;
+                return d.totalLength + ' ' + d.totalLength;
             } )
             .attr( 'stroke-dashoffset',  d => -d.totalLength )
             .on( 'mouseover', hover )
@@ -195,13 +241,26 @@ const onEachVisit = bhIndex => {
             .attr( 'stroke-dashoffset',  0 )
             .on( 'start', ( d, i ) => {
                 sensor.filter( ( s, j ) => j === i ).style( 'opacity', 1.0 )
+                document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.add( 'darken-4' );
             } )
             .on( 'end', ( d, i ) => {
                 if( i !== sensorsNames.length - 1 ) {
-                    sensor.filter( ( s, j ) => j === i ).transition().delay( 500 ).style( 'opacity', 0.15 );
+                    sensor.filter( ( s, j ) => j === i )
+                        .transition()
+                        .delay( 500 )
+                        .style( 'opacity', 0.15 )
+                        .on( 'start', d => {
+                            document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.remove( 'darken-4' );
+                        } );
                 }
                 else{
-                    sensor.transition().delay( 500 ).duration( 2000 ).style( 'opacity', 1.0 );
+                    sensor.transition()
+                        .delay( 500 )
+                        .duration( 2000 )
+                        .style( 'opacity', 1.0 )
+                        .on( 'start', d => {
+                            document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.add( 'darken-4' );
+                        } );
                 }
             } );
 
@@ -220,10 +279,13 @@ const onEachVisit = bhIndex => {
     }, 20 );
 };
 
+let windowWidth = window.innerWidth;
 window.addEventListener( 'resize', e => {
-    let tab = document.querySelector( '.active' );
-    if( tab.href.indexOf( 'home' ) == -1 ){
-        let beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
-        onEachVisit( beehiveIndex );
+    if( windowWidth != window.innerWidth ){
+        let tab = document.querySelector( '.active' );
+        if( tab.href.indexOf( 'home' ) == -1 ){
+            let beehiveIndex = parseInt( tab.href[ tab.href.length - 1 ] );
+            onEachVisit( beehiveIndex );
+        }
     }
 } );
