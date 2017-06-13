@@ -230,9 +230,7 @@ const onEachVisit = bhIndex => {
                 d.totalLength = this.getTotalLength();
                 return d.totalLength + ' ' + d.totalLength;
             } )
-            .attr( 'stroke-dashoffset',  d => -d.totalLength )
-            .on( 'mouseover', hover )
-            .on( 'mouseleave', out );
+            .attr( 'stroke-dashoffset',  d => -d.totalLength );
 
         sensor.select( 'path' )
             .transition()
@@ -273,9 +271,7 @@ const onEachVisit = bhIndex => {
             .attr( 'dy', '0.35em' )
             .style( 'font', '10px sans-serif' )
             .style( 'fill', d => z( d.id ) )
-            .text( d => d.id )
-            .on( 'mouseover', hover )
-            .on( 'mouseleave', out );
+            .text( d => d.id );
     }, 20 );
 };
 
