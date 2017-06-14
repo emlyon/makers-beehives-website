@@ -68,6 +68,15 @@ nav{
         }
     }
 
+    div>.gui {
+        background-color: #bdbdbd !important;
+        margin-bottom: 10px;
+    }
+
+    div>.gui.darken-2 {
+        background-color: #e2001a !important;
+    }
+
     img{
         min-height: 1px;
     }

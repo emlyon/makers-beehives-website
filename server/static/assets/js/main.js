@@ -84,7 +84,7 @@ const firstVisit = bhIndex => {
     let buttons = [], actives = [];
     [ 'light', 'temp', 'noise', 'hum', 'co', 'no2' ].forEach( sensor => {
         let btn = document.createElement( 'a' );
-        btn.classList.add( 'waves-effect', 'waves-light', 'orange', 'btn', 'col', 's6', 'm4', 'l2' );
+        btn.classList.add( 'gui', 'waves-effect', 'waves-light', 'grey', 'btn', 'col', 's12' );
         btn.innerText = sensor;
         btn.id = 'btn-' + bhIndex + '-' + btn.innerText;
         actives.push( btn.innerText );
@@ -93,7 +93,11 @@ const firstVisit = bhIndex => {
     let btnsRow = document.createElement( 'div' );
     btnsRow.classList.add( 'row' );
     buttons.forEach( btn => {
-        btnsRow.appendChild( btn );
+        let col = document.createElement( 'div' );
+        col.classList.add( 'col', 's6', 'm4', 'l2' );
+
+        col.appendChild( btn );
+        btnsRow.appendChild( col );
     } );
     div.appendChild( btnsRow );
 
@@ -105,7 +109,7 @@ const firstVisit = bhIndex => {
     div.appendChild( grid );
 
     bh.forEach( ( d, i ) => {
-        let tmp = `<div class="col s12 m6 parseInt( l4"><distylev class="card  )z-depth-3 hoverable"><div class="card-image">`;
+        let tmp = `<div class="col s12 m6 l4"><div class="card z-depth-3 hoverable"><div class="card-image">`;
 
         tmp += i < 6 ?
             `<img class="materialboxed" data-caption="${d.date} light: ${d.sensors.light} | temperature: ${d.sensors.temp} | noise: ${d.sensors.noise} | humidity: ${d.sensors.hum} | co: ${d.sensors.co} | no2: ${d.sensors.no2}" src="${d.gif || 'http://placehold.it/800x533/000000/000000?text=Night'}">` :
@@ -113,7 +117,7 @@ const firstVisit = bhIndex => {
 
         tmp += `<span class="card-title">${d.date}</span>
                 </div>
-                <div clalet tmps="card-content red-text text-lighten-2">
+                <div class="card-content red-text text-lighten-2">
                     <p class="grey-text text-darken-2">
                         light: ${d.sensors.light}<br>
                         temperature: ${d.sensors.temp}<br>
@@ -136,13 +140,13 @@ const firstVisit = bhIndex => {
 
     buttons.forEach( btn => {
         btn.addEventListener( 'click', e => {
-            btn.classList.toggle( 'darken-4' );
+            btn.classList.toggle( 'darken-2' );
             let id = '#g-' + bhIndex + '-' + btn.innerText.toLowerCase();
             d3.select( id )
                 .transition()
                 .duration( 500 )
                 .style( 'opacity', function( d ){
-                    return btn.classList.contains( 'darken-4') ? 1.0 : 0.0;
+                    return btn.classList.contains( 'darken-2') ? 1.0 : 0.0;
                 } );
         } );
     } );
@@ -202,17 +206,17 @@ const onEachVisit = bhIndex => {
         let hover = d => {
             sensor.style( 'opacity', 1.0 ).transition().style( 'opacity', s => {
                 if( s.id === d.id ){
-                    document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.add( 'darken-4' );
+                    document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.add( 'darken-2' );
                 }
                 else{
-                    document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.remove( 'darken-4' );
+                    document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.remove( 'darken-2' );
                 }
                 return s.id === d.id ? 1.0 : 0.15
             } );
         };
 
         let out = d => {
-            sensor.each( s => document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.add( 'darken-4' ) )
+            sensor.each( s => document.querySelector( '#btn-' + bhIndex + '-' + s.id ).classList.add( 'darken-2' ) )
                 .transition()
                 .style( 'opacity', 1.0 );
         };
@@ -237,7 +241,7 @@ const onEachVisit = bhIndex => {
             .attr( 'stroke-dashoffset',  0 )
             .on( 'start', ( d, i ) => {
                 sensor.filter( ( s, j ) => j === i ).style( 'opacity', 1.0 )
-                document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.add( 'darken-4' );
+                document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.add( 'darken-2' );
             } )
             .on( 'end', ( d, i ) => {
                 if( i !== sensorsNames.length - 1 ) {
@@ -246,7 +250,7 @@ const onEachVisit = bhIndex => {
                         .delay( 500 )
                         .style( 'opacity', 0.15 )
                         .on( 'start', d => {
-                            document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.remove( 'darken-4' );
+                            document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.remove( 'darken-2' );
                         } );
                 }
                 else{
@@ -255,7 +259,7 @@ const onEachVisit = bhIndex => {
                         .duration( 2000 )
                         .style( 'opacity', 1.0 )
                         .on( 'start', d => {
-                            document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.add( 'darken-4' );
+                            document.querySelector( '#btn-' + bhIndex + '-' + d.id ).classList.add( 'darken-2' );
                         } );
                 }
             } );
