@@ -82,15 +82,13 @@ const firstVisit = bhIndex => {
     let svg = d3.select( div ).append( 'svg' ).attr( 'id', 'svg' + bhIndex );
 
     let buttons = [], actives = [];
-    for( let sensor in bh[ 0 ].sensors ){
-        if( '' + sensor !== 'bat' && '' + sensor !== 'panel' ){
-            let btn = document.createElement( 'a' );
-            btn.classList.add( 'waves-effect', 'waves-light', 'orange', 'btn', 'col', 's6', 'm4', 'l2' );
-            btn.innerText = sensor;
-            btn.id = 'btn-' + bhIndex + '-' + btn.innerText;
-            actives.push( btn.innerText );
-            buttons.push( btn );
-        }
+    for( let sensor in [ 'light', 'temp', 'noise', 'hum', 'co', 'no2' ] ){
+        let btn = document.createElement( 'a' );
+        btn.classList.add( 'waves-effect', 'waves-light', 'orange', 'btn', 'col', 's6', 'm4', 'l2' );
+        btn.innerText = sensor;
+        btn.id = 'btn-' + bhIndex + '-' + btn.innerText;
+        actives.push( btn.innerText );
+        buttons.push( btn );
     }
     let btnsRow = document.createElement( 'div' );
     btnsRow.classList.add( 'row' );
