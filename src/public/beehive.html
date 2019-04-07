@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>makers' beehives by makers' lab</title>
+
+    <link rel="icon" type="image/png" href="img/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <link href="/css/main.min.css" rel="stylesheet"/>
+</head>
+
+<body class="grey darken-2">
+    <nav class="nav-extended z-depth-4 deep-orange darken-2">
+        <div class="nav-wrapper grey lighten-5">
+            <a href="/" target="blank" class="brand-logo">
+                <image src="http://makerslab.em-lyon.com/media/logo.png"/>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li>makers' beehives by <a class="waves-effect" href="http://makerslab.em-lyon.com">makers' lab</a></li>
+            </ul>
+        </div>
+    
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a class="waves-effect" href="/">Home</a></li>
+                <li class="tab"><a class="waves-effect" href="/beehive?id=0">Beehive #0</a></li>
+                <li class="tab"><a class="waves-effect" href="/beehive?id=1">Beehive #1</a></li>
+                <li class="tab"><a class="waves-effect" href="/beehive?id=2">Beehive #2</a></li>
+                <li class="tab"><a class="waves-effect" href="/beehive?id=3">Beehive #3</a></li>
+            </ul>
+        </div>
+    </nav>
+            
+    <div id="content" class="container beehive z-depth-3">
+        <div id="preload">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer deep-orange darken-2">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">About</h5>
+                    <p class="grey-text text-lighten-4">makers' beehives are the result of a 4 days workshop at emlyon business school makers' lab, focusing on technology litteracy and social innovation around tools accessible to every users at makers' lab.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Links</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="http://makerslab.em-lyon.com">makers' lab</a></li>
+                        <li><a class="grey-text text-lighten-3" href="https://github.com/emlyon">github</a></li>
+                        <li><a class="grey-text text-lighten-3" href="https://twitter.com/makerslab_">twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <div class="footer-copyright">
+            <div class="container">
+                © 2019 emlyon business school makers'lab
+                <a class="grey-text text-lighten-4 right" href="mailto:makerslab@em-lyon.com">makerslab@em-lyon.com</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <script src="/js/jquery.lazyload.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/onresize.js"></script>
+    <script src="/js/beehive.js"></script>
+</body>
+</html>

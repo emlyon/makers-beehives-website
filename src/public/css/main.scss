@@ -1,7 +1,9 @@
 nav{
     .nav-wrapper{
         li{
+            color: #e2001a;
             a{
+                padding-left: 0;
                 color: #e2001a;
             }
         }
@@ -12,7 +14,8 @@ nav{
         font-weight: 500;
 
         img{
-            height: 150px;
+            margin-top: 12px;
+            height: 40px;
         }
     }
 
@@ -25,11 +28,31 @@ nav{
             font-weight: 300;
         }
     }
+
+    .nav-content{
+        li{
+            display: inline-block;
+            text-align: center;
+            line-height: 48px;
+            height: 48px;
+            padding: 0;
+            margin: 0;
+            text-transform: uppercase;
+        }
+    }
 }
 
 #home{
-    img{
-        min-width: 100%;
+    .jumbo{
+        min-height: 80vh; 
+        background: url(http://i.imgur.com/g8PpYHh.jpg) no-repeat center center fixed; 
+        background-size: cover; 
+        display: flex;
+        flex-direction: column; 
+        flex-wrap: nowrap; 
+        justify-content: center; 
+        align-items: center; 
+        align-content: center;
     }
 
     .card{
@@ -46,9 +69,32 @@ nav{
     }
 }
 
+#content{
+    background:white;
+
+    #preload{
+        min-height: 60vh; 
+        display: flex; 
+        flex-direction: column; 
+        flex-wrap: nowrap; 
+        justify-content: center; 
+        align-items: center; 
+        align-content: center;
+
+        .progress{
+            background-color:rgba(255,0,0,0.2);
+
+            .indeterminate{
+                background-color:#e2001a;
+            }
+        }
+    }
+}
+
 .beehive{
     background: white;
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 0px 20px 0px 20px;
 
     .last-update{
