@@ -44,8 +44,8 @@ nav{
 
 #home{
     .jumbo{
-        min-height: 80vh; 
-        background: url(http://i.imgur.com/g8PpYHh.jpg) no-repeat center center fixed; 
+        min-height: 85vh; 
+        background: url(https://i.imgur.com/g8PpYHh.jpg) no-repeat center center fixed; 
         background-size: cover; 
         display: flex;
         flex-direction: column; 
@@ -64,8 +64,12 @@ nav{
         }
     }
 
+    .video-container{
+        margin: 20px auto;
+    }
+
     #map{
-        height: 400px;
+        height: 60vh !important;
     }
 }
 
