@@ -12,6 +12,10 @@
 </head>
 
 <body>
+    <%- `<script>
+        const beehiveData = ${JSON.stringify(beehiveData)};
+    </script>`
+    %>
     <nav class="nav-extended z-depth-4 deep-orange darken-2">
         <div class="nav-wrapper grey lighten-5">
             <a href="/" target="blank" class="brand-logo">
@@ -21,7 +25,7 @@
                 <li>makers' beehives by <a class="waves-effect" href="http://makerslab.em-lyon.com">makers' lab</a></li>
             </ul>
         </div>
-    
+
         <div class="nav-content">
             <ul class="tabs tabs-transparent">
                 <li class="tab"><a class="waves-effect" href="/">Home</a></li>
@@ -32,7 +36,7 @@
             </ul>
         </div>
     </nav>
-            
+
     <div id="content" class="container beehive z-depth-3">
         <div id="preload">
             <div class="progress">
@@ -58,7 +62,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="footer-copyright">
             <div class="container">
                 © 2019 emlyon business school makers'lab
@@ -66,7 +70,7 @@
             </div>
         </div>
     </footer>
-    
+
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>

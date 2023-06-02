@@ -23,18 +23,18 @@
                 <li><span style="line-height:-2px;">makers' beehives by </span><a class="waves-effect" href="http://makerslab.em-lyon.com">makers' lab</a></li>
             </ul>
         </div>
-    
+
         <div class="nav-content">
             <ul class="tabs tabs-transparent">
                 <li><a class="active waves-effect" href="/">Home</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive?id=0">Beehive #0</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive?id=1">Beehive #1</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive?id=2">Beehive #2</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive?id=3">Beehive #3</a></li>
+                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee1">Bee1</a></li>
+                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee2">Bee2</a></li>
+                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee3">Bee3</a></li>
+                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee4">Bee4</a></li>
             </ul>
         </div>
     </nav>
-            
+
     <div id="home">
         <div class="jumbo">
             <div class="container">
@@ -46,7 +46,7 @@
                             <p>Makers'&nbsp;bootcamps inscribe open innovations in reality by putting them within reach of all. They are a means of empowerment and discovery of innovative technologies through practice and manufacturing of impating products or services capable of socially changing our working and living spaces.</p>
                         </div>
                     </div>
-        
+
                     <div class="col s12 m12 l4">
                         <div class="card hoverable z-depth-3">
                             <h3>Learning</h3>
@@ -54,7 +54,7 @@
                             <p>Offering four intensive days of learning programming, 2D & 3D design, electronics and digital manufacturing, makers'&nbsp;bootcamps enable understanding of new technologies by DIY and DIWO methodologies. Through this training, participants become capable of thinking and making in complex and uncertain environments.</p>
                         </div>
                     </div>
-        
+
                     <div class="col s12 m12 l4">
                         <div class="card hoverable z-depth-3">
                             <h3>Team building</h3>
@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="footer-copyright">
             <div class="container">
                 © 2019 emlyon business school makers'lab
@@ -98,13 +98,13 @@
             </div>
         </div>
     </footer>
-    
+
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"></script>
     <script src="/js/nav.js"></script>
     <script src="/js/onresize.js"></script>
-    
+
     <script>
         window.addEventListener('load', () => {
             document.querySelector( '#map' ).style.height = `${window.innerHeight / 2 | 0}px`
@@ -113,7 +113,7 @@
             L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
 	            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
             } ).addTo(map)
-            
+
             const marker = L.marker([45.78715, 4.7637]).addTo(map)
         })
     </script>

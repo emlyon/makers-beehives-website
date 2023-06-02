@@ -1,15 +1,47 @@
 const express = require('express')
 const app = express()
+require('dotenv').config();
+const firebase = require('firebase-admin');
+require('ejs');
+app.set('view engine', 'ejs');
 
+// We rebuild the service account configuration from the environment variables
+const serviceAccount = {
+  type: 'service_account',
+  project_id: process.env.FIREBASE_ADMIN_PROJECT_ID,
+  private_key_id: process.env.FIREBASE_ADMIN_PRIVATE_KEY_ID,
+  private_key: process.env.FIREBASE_ADMIN_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  client_email: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+  client_id: process.env.FIREBASE_ADMIN_CLIENT_ID,
+  auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+  token_uri: 'https://oauth2.googleapis.com/token',
+  auth_provider_x509_cert_url: process.env.FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL,
+  client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_X509_CERT_URL
+};
+
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
+  databaseURL: process.env.FIREBASE_ADMIN_DATABASE_URL
+});
+
+const db = firebase.database();
 
 app.use( express.static( __dirname + '/public' ) )
 
 app.get('/', (request, response) => {
-    response.sendFile('index.html')
+    db.ref(`beehives/`).get().then((snapshot) => {
+        beehivesData = snapshot.val()
+        console.log(Object.keys(beehivesData))
+        response.render(__dirname + '/views/index.ejs', beehivesData)
+    })
 })
 
-app.get('/beehive', (request, response) => {
-    response.sendFile(__dirname + '/public/beehive.html')
+app.get('/beehive/:id', (request, response) => {
+    db.ref(`beehives/${request.params.id}`).get().then((snapshot) => {
+        beehiveData = snapshot.val()
+        console.log(beehiveData)
+        response.render(__dirname + '/views/beehive.ejs', beehiveData)
+    })
 })
 
 const listener = app.listen(process.env.PORT || 8080, () => {
