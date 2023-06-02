@@ -1,5 +1,5 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
 require('dotenv').config();
 const firebase = require('firebase-admin');
 require('ejs');
@@ -26,24 +26,36 @@ firebase.initializeApp({
 
 const db = firebase.database();
 
-app.use( express.static( __dirname + '/public' ) )
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', (request, response) => {
-    db.ref(`beehives/`).get().then((snapshot) => {
-        beehivesData = snapshot.val()
-        console.log(Object.keys(beehivesData))
-        response.render(__dirname + '/views/index.ejs', beehivesData)
-    })
-})
+  db.ref(`beehives/`)
+    .get()
+    .then((snapshot) => {
+      beehivesData = snapshot.val();
+      console.log(Object.keys(beehivesData));
+      response.render(__dirname + '/views/index.ejs', beehivesData);
+    });
+});
 
 app.get('/beehive/:id', (request, response) => {
-    db.ref(`beehives/${request.params.id}`).get().then((snapshot) => {
-        beehiveData = snapshot.val()
-        console.log(beehiveData)
-        response.render(__dirname + '/views/beehive.ejs', beehiveData)
-    })
-})
+  const beehiveId = request.params.id;
+  const beehiveIndex = beehiveId.replace('bee', '');
+  SENSORS_NAMES = ['light', 'temp', 'noise', 'hum', 'co', 'no2'];
+  db.ref(`beehives/${beehiveId}/data`)
+    .get()
+    .then((snapshot) => {
+      const beehiveData = snapshot.val();
+      // Object.values(beehiveData).forEach((element) => {
+      //   element.dateTime = new Date(element.dateTime).toLocaleString('fr-FR').split(' à ').join(' ');
+      // });
+      console.log(beehiveData);
+      console.log(beehiveId);
+      //
+      response.render(__dirname + '/views/beehive.ejs', { beehiveData, beehiveId, beehiveIndex, SENSORS_NAMES });
+    });
+});
 
 const listener = app.listen(process.env.PORT || 8080, () => {
-    console.log('Your app is listening on port ' + listener.address().port)
-})
+  console.log('Your app is listening on port ' + listener.address().port);
+});

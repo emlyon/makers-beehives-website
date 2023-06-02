@@ -1,50 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('partials/head.ejs') %>
     <script defer src="https://d3js.org/d3.v4.min.js"></script>
     <script defer src="/js/beehive.js"></script>
-</head>
+  </head>
 
-<body>
-    <%- `<script>
-        const beehiveData = ${JSON.stringify(beehiveData)};
-    </script>`
-    %>
-    <%- include('partials/navbar.ejs') %>
+  <body>
+    <%- `
+    <script>
+      const SENSORS_NAMES = ${JSON.stringify(SENSORS_NAMES)};
+      const beehiveIndex = ${JSON.stringify(beehiveIndex)};
+      const beehiveData = ${JSON.stringify(beehiveData)};
+    </script>
+    ` %> <%- include('partials/navbar.ejs') %>
 
     <div id="content" class="container beehive z-depth-3">
-        <div id="preload">
-            <div class="progress">
-                <div class="indeterminate"></div>
-            </div>
+      <h3 class="deep-orange-text text-darken-2">Beehive # <%= beehiveId %></h3>
+      <p class="last-update">Last update: <%= Object.values(beehiveData)[0].dateTime %></p>
+      <hr />
+      <div id="graph">
+        <div class="row"></div>
+        <% SENSORS_NAMES.forEach((sensor) => { %>
+        <div class="col s6 m4 l2">
+          <a
+            href=""
+            id="btn-<%=beehiveIndex%>-<%=sensor%>"
+            class="graph-button gui waves-effect waves-light grey btn col s12"
+          >
+            <%= sensor %>
+          </a>
         </div>
+
+        <%= %> <% }) %>
+      </div>
+      <hr />
+      <div class="row">
+        <% Object.values(beehiveData).forEach(dataEntry => { %> <%- include('partials/beehiveDataEntry.ejs', {entry:
+        dataEntry}) %> <% }); %>
+      </div>
     </div>
 
-    <footer class="page-footer deep-orange darken-2">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">About</h5>
-                    <p class="grey-text text-lighten-4">makers' beehives are the result of a 4 days workshop at emlyon business school makers' lab, focusing on technology litteracy and social innovation around tools accessible to every users at makers' lab.</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="http://makerslab.em-lyon.com">makers' lab</a></li>
-                        <li><a class="grey-text text-lighten-3" href="https://github.com/emlyon">github</a></li>
-                        <li><a class="grey-text text-lighten-3" href="https://twitter.com/makerslab_">twitter</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-copyright">
-            <div class="container">
-                © 2019 emlyon business school makers'lab
-                <a class="grey-text text-lighten-4 right" href="mailto:makerslab@em-lyon.com">makerslab@em-lyon.com</a>
-            </div>
-        </div>
-    </footer>
-</body>
+    <%- include('partials/footer.ejs') %>
+  </body>
 </html>
