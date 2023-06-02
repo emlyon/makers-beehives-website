@@ -1,39 +1,27 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <title>makers' beehives by makers' lab</title>
-
-    <link rel="icon" type="image/png" href="img/favicon.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
-    <link type="text/css" href="css/main.min.css" rel="stylesheet"/>
-
+    <%- include('partials/head.ejs') %>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"></script>
+
+    <script defer>
+        window.addEventListener('load', () => {
+            document.querySelector( '#map' ).style.height = `${window.innerHeight / 2 | 0}px`
+
+            const map = L.map( 'map', {scrollWheelZoom: false}).setView([45.7865, 4.764], 6)
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+	            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+            } ).addTo(map)
+
+            const marker = L.marker([45.78715, 4.7637]).addTo(map)
+        })
+    </script>
 </head>
 
 <body>
-    <nav class="nav-extended z-depth-4 deep-orange darken-2">
-        <div class="nav-wrapper grey lighten-5">
-            <a href="/" target="blank" class="brand-logo">
-                <image src="http://makerslab.em-lyon.com/media/logo.png"/>
-            </a>
-            <ul class="right hide-on-med-and-down">
-                <li><span style="line-height:-2px;">makers' beehives by </span><a class="waves-effect" href="http://makerslab.em-lyon.com">makers' lab</a></li>
-            </ul>
-        </div>
-
-        <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li><a class="active waves-effect" href="/">Home</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee1">Bee1</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee2">Bee2</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee3">Bee3</a></li>
-                <li><a class="waves-effect" style="opacity: 0.6;" href="/beehive/bee4">Bee4</a></li>
-            </ul>
-        </div>
-    </nav>
+    <%- include('partials/navbar.ejs') %>
 
     <div id="home">
         <div class="jumbo">
@@ -98,24 +86,5 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"></script>
-    <script src="/js/nav.js"></script>
-    <script src="/js/onresize.js"></script>
-
-    <script>
-        window.addEventListener('load', () => {
-            document.querySelector( '#map' ).style.height = `${window.innerHeight / 2 | 0}px`
-
-            const map = L.map( 'map', {scrollWheelZoom: false}).setView([45.7865, 4.764], 6)
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-	            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-            } ).addTo(map)
-
-            const marker = L.marker([45.78715, 4.7637]).addTo(map)
-        })
-    </script>
 </body>
 </html>

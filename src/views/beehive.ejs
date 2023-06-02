@@ -1,14 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <title>makers' beehives by makers' lab</title>
-
-    <link rel="icon" type="image/png" href="img/favicon.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
-    <link href="/css/main.min.css" rel="stylesheet"/>
+    <%- include('partials/head.ejs') %>
+    <script defer src="https://d3js.org/d3.v4.min.js"></script>
+    <script defer src="/js/beehive.js"></script>
 </head>
 
 <body>
@@ -16,26 +11,7 @@
         const beehiveData = ${JSON.stringify(beehiveData)};
     </script>`
     %>
-    <nav class="nav-extended z-depth-4 deep-orange darken-2">
-        <div class="nav-wrapper grey lighten-5">
-            <a href="/" target="blank" class="brand-logo">
-                <image src="http://makerslab.em-lyon.com/media/logo.png"/>
-            </a>
-            <ul class="right hide-on-med-and-down">
-                <li>makers' beehives by <a class="waves-effect" href="http://makerslab.em-lyon.com">makers' lab</a></li>
-            </ul>
-        </div>
-
-        <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab"><a class="waves-effect" href="/">Home</a></li>
-                <li class="tab"><a class="waves-effect" href="/beehive?id=0">Beehive #0</a></li>
-                <li class="tab"><a class="waves-effect" href="/beehive?id=1">Beehive #1</a></li>
-                <li class="tab"><a class="waves-effect" href="/beehive?id=2">Beehive #2</a></li>
-                <li class="tab"><a class="waves-effect" href="/beehive?id=3">Beehive #3</a></li>
-            </ul>
-        </div>
-    </nav>
+    <%- include('partials/navbar.ejs') %>
 
     <div id="content" class="container beehive z-depth-3">
         <div id="preload">
@@ -70,13 +46,5 @@
             </div>
         </div>
     </footer>
-
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-    <script src="/js/jquery.lazyload.min.js"></script>
-    <script src="/js/nav.js"></script>
-    <script src="/js/onresize.js"></script>
-    <script src="/js/beehive.js"></script>
 </body>
 </html>

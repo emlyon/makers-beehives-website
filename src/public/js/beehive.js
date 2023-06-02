@@ -1,5 +1,6 @@
-const bhIndex = location.search === '' ? 0 : parseInt(new URLSearchParams(location.search).get('id'))
-document.querySelectorAll('.nav-content a')[bhIndex + 1].classList.add('active')
+const bhIndex = location.pathname.split('/').at(-1).replace("bee", "")
+// Home link will be at index 0
+document.querySelectorAll('.nav-content a')[bhIndex].classList.add('active')
 
 let div = document.querySelector('#content')
 
