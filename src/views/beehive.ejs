@@ -13,7 +13,9 @@
       const beehiveIndex = ${JSON.stringify(beehiveIndex)};
       const beehiveData = ${JSON.stringify(beehiveData)};
     </script>
-    ` %> <%- include('partials/navbar.ejs') %>
+    ` %>
+
+    <%- include('partials/navbar.ejs') %>
 
     <div id="content" class="container beehive z-depth-3">
       <h3 class="deep-orange-text text-darken-2">Beehive # <%= beehiveId %></h3>
@@ -31,13 +33,14 @@
             <%= sensor %>
           </a>
         </div>
-
-        <%= %> <% }) %>
+        <% }) %>
       </div>
       <hr />
       <div class="row">
-        <% Object.values(beehiveData).forEach(dataEntry => { %> <%- include('partials/beehiveDataEntry.ejs', {entry:
-        dataEntry}) %> <% }); %>
+        <% Object.values(beehiveData).forEach(dataEntry => { %>
+          <%- include('partials/beehiveDataEntry.ejs', {entry:
+        dataEntry}) %>
+        <% }); %>
       </div>
     </div>
 
