@@ -71,7 +71,6 @@ app.get('/', (request, response) => {
     .get()
     .then((snapshot) => {
       beehivesData = snapshot.val();
-      console.log(Object.keys(beehivesData));
       response.render(__dirname + '/views/index.ejs', beehivesData);
     });
 });
@@ -87,9 +86,6 @@ app.get('/beehives/:id', (request, response) => {
       // Object.values(beehiveData).forEach((element) => {
       //   element.dateTime = new Date(element.dateTime).toLocaleString('fr-FR').split(' à ').join(' ');
       // });
-      console.log(beehiveData);
-      console.log(beehiveId);
-      //
       response.render(__dirname + '/views/beehive.ejs', { beehiveData, beehiveId, beehiveIndex });
     });
 });
