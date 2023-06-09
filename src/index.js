@@ -57,5 +57,5 @@ app.get('/beehive/:id', (request, response) => {
 });
 
 const listener = app.listen(process.env.PORT || 8080, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
+  console.log(`✨ App running on http://127.0.0.1:${listener.address().port}`);
 });
