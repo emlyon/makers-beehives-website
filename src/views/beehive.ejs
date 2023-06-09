@@ -2,44 +2,29 @@
 <html lang="en">
   <head>
     <%- include('partials/head.ejs') %>
-    <script defer src="https://d3js.org/d3.v4.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script defer src="/js/beehive.js"></script>
   </head>
 
   <body>
     <%- `
     <script>
-      const SENSORS_NAMES = ${JSON.stringify(SENSORS_NAMES)};
+      const SENSORS_INFO = ${JSON.stringify(SENSORS_INFO)};
       const beehiveIndex = ${JSON.stringify(beehiveIndex)};
       const beehiveData = ${JSON.stringify(beehiveData)};
     </script>
     ` %>
-
     <%- include('partials/navbar.ejs') %>
 
     <div id="content" class="container beehive z-depth-3">
       <h3 class="deep-orange-text text-darken-2">Beehive # <%= beehiveId %></h3>
       <p class="last-update">Last update: <%= Object.values(beehiveData)[0].dateTime %></p>
       <hr />
-      <div id="graph">
-        <div class="row"></div>
-        <% SENSORS_NAMES.forEach((sensor) => { %>
-        <div class="col s6 m4 l2">
-          <a
-            href=""
-            id="btn-<%=beehiveIndex%>-<%=sensor%>"
-            class="graph-button gui waves-effect waves-light grey btn col s12"
-          >
-            <%= sensor %>
-          </a>
-        </div>
-        <% }) %>
-      </div>
+      <div id="chart"></div>
       <hr />
       <div class="row">
         <% Object.values(beehiveData).forEach(dataEntry => { %>
-          <%- include('partials/beehiveDataEntry.ejs', {entry:
-        dataEntry}) %>
+          <%- include('partials/beehiveDataEntry.ejs', {entry: dataEntry}) %>
         <% }); %>
       </div>
     </div>

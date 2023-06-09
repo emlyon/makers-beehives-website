@@ -5,6 +5,44 @@ const firebase = require('firebase-admin');
 require('ejs');
 app.set('view engine', 'ejs');
 
+SENSORS_INFO = {
+  light: {
+    name: 'Luminosité',
+    unit: 'Lux',
+    seriesType: 'line'
+  },
+  temp: {
+    name: 'Température',
+    unit: '°C',
+    seriesType: 'line'
+  },
+  noise: {
+    name: 'Bruit',
+    unit: 'dB',
+    seriesType: 'line'
+  },
+  hum: {
+    name: 'Humidité',
+    unit: '%',
+    seriesType: 'line'
+  },
+  co: {
+    name: 'CO',
+    unit: 'ppm',
+    seriesType: 'line'
+  },
+  no2: {
+    name: 'NO2',
+    unit: 'ppm',
+    seriesType: 'line'
+  },
+  weight: {
+    name: 'Poids',
+    unit: 'kg',
+    seriesType: 'column'
+  }
+};
+
 // We rebuild the service account configuration from the environment variables
 const serviceAccount = {
   type: 'service_account',
@@ -41,7 +79,7 @@ app.get('/', (request, response) => {
 app.get('/beehives/:id', (request, response) => {
   const beehiveId = request.params.id;
   const beehiveIndex = beehiveId.replace('bee', '');
-  SENSORS_NAMES = ['light', 'temp', 'noise', 'hum', 'co', 'no2'];
+  request.app.locals.SENSORS_INFO = SENSORS_INFO;
   db.ref(`beehives/${beehiveId}/data`)
     .get()
     .then((snapshot) => {
@@ -52,7 +90,7 @@ app.get('/beehives/:id', (request, response) => {
       console.log(beehiveData);
       console.log(beehiveId);
       //
-      response.render(__dirname + '/views/beehive.ejs', { beehiveData, beehiveId, beehiveIndex, SENSORS_NAMES });
+      response.render(__dirname + '/views/beehive.ejs', { beehiveData, beehiveId, beehiveIndex });
     });
 });
 
