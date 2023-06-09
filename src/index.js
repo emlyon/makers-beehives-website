@@ -38,7 +38,7 @@ app.get('/', (request, response) => {
     });
 });
 
-app.get('/beehive/:id', (request, response) => {
+app.get('/beehives/:id', (request, response) => {
   const beehiveId = request.params.id;
   const beehiveIndex = beehiveId.replace('bee', '');
   SENSORS_NAMES = ['light', 'temp', 'noise', 'hum', 'co', 'no2'];
