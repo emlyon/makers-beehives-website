@@ -46,6 +46,7 @@ width:100%;
 }
 .bg-red-gradient{
    background: radial-gradient(50% 100% at -20% 120%, rgb(255 0 0) 0%, rgb(58, 58, 58) 100%);
+
 }
 
 .bg-dark-gradient{
@@ -56,6 +57,7 @@ background: radial-gradient(circle, rgba(47,47,47,1) 0%, rgba(47,47,47,0) 50%);
 .bg{
     background-image: url(../img/background.png);
     background-size: 100%;
+    background-repeat:no-repeat;
 }
 .bg-2{
     display: flex;
