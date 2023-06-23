@@ -21,6 +21,7 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_X509_CERT_URL
 };
 
+
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: process.env.FIREBASE_ADMIN_DATABASE_URL
@@ -59,3 +60,4 @@ app.get('/beehives/:id', (request, response) => {
 const listener = app.listen(process.env.PORT || 8080, () => {
   console.log(`✨ App running on http://127.0.0.1:${listener.address().port}`);
 });
+

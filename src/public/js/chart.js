@@ -1,4 +1,4 @@
-function createChart(beehiveData) {
+function createChart(beehiveData, chartId = '#chart') {
   const series = buildSeries(beehiveData);
   const labels = Object.values(beehiveData).map((d) => formatDatetime(d.dateTime));
   const yaxis = buildYAxis();
@@ -55,7 +55,7 @@ function createChart(beehiveData) {
     }
   };
 
-  const chart = new ApexCharts(document.querySelector('#chart'), options);
+  const chart = new ApexCharts(document.querySelector(chartId), options);
   chart.render();
 }
 
