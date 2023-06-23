@@ -15,13 +15,16 @@ function createChart(beehiveData) {
   const options = {
     series,
     labels,
+    theme: {
+      palette: 'palette1' // upto palette10
+    },
     chart: {
       height: 350,
       type: 'line',
       stacked: false
     },
     stroke: {
-      width: [0, 2, 5],
+      width: 3,
       curve: 'smooth'
     },
     plotOptions: {
@@ -31,7 +34,7 @@ function createChart(beehiveData) {
     },
 
     fill: {
-      opacity: [0.85, 0.25, 1],
+      opacity: 1,
       gradient: {
         inverseColors: false,
         shade: 'light',
@@ -95,3 +98,4 @@ function formatDatetime(dateTimeString) {
   date = [month, day, year].join('/');
   return `${date} ${time}`;
 }
+
