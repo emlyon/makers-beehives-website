@@ -91,5 +91,5 @@ app.get('/beehives/:id', (request, response) => {
 });
 
 const listener = app.listen(process.env.PORT || 8080, () => {
-  console.log(`✨ App running on http://127.0.0.1:${listener.address().port}`);
+  console.log(`✨ App running on localhost:${listener.address().port}`);
 });
