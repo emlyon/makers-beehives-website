@@ -25,9 +25,19 @@
         const marker = L.marker([45.78715, 4.7637]).addTo(map);
       });
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script defer src="/js/index.js"></script>
+    <script defer src="/js/chart.js"></script>
+    
   </head>
 
   <body>
+    <%- `
+    <script>
+      const SENSORS_INFO = ${JSON.stringify(SENSORS_INFO)};
+      const beehivesData = ${JSON.stringify(beehivesData)};
+    </script>
+    ` %>
     <%- include('partials/navbar.ejs') %>
   <!--landing area -------------------------------------------->   
     <div id="home" class=" bg">
@@ -143,6 +153,9 @@
 
     <div class="row">
       <div class="col s12 m12 l6">
+
+        <div id="chart"></div>
+        
     <img class="img-100" src="../img/map.png" alt=""/>
     <button class="white-color btn-right">Voir plus</button>
       </div>
