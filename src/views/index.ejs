@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head.ejs') %>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"
+    ></script>
+
+    <script defer>
+      window.addEventListener('load', () => {
+        document.querySelector('#map').style.height = `${(window.innerHeight / 2) | 0}px`;
+
+        const map = L.map('map', { scrollWheelZoom: false }).setView([45.7865, 4.764], 6);
+        L.tileLayer(
+          'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+          {
+            attribution:
+              'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+          }
+        ).addTo(map);
+
+        const marker = L.marker([45.78715, 4.7637]).addTo(map);
+      });
+    </script>
+  </head>
+
+  <body>
+    <%- include('partials/navbar.ejs') %>
+
+    <div id="home">
+      <div class="jumbo">
+        <div class="container">
+          <div class="row">
+            <div class="col s12 m12 l4">
+              <div class="card hoverable z-depth-3">
+                <h3>Innovating</h3>
+                <div class="divider"></div>
+                <p>
+                  Makers'&nbsp;bootcamps inscribe open innovations in reality by putting them within reach of all. They
+                  are a means of empowerment and discovery of innovative technologies through practice and manufacturing
+                  of impating products or services capable of socially changing our working and living spaces.
+                </p>
+              </div>
+            </div>
+
+            <div class="col s12 m12 l4">
+              <div class="card hoverable z-depth-3">
+                <h3>Learning</h3>
+                <div class="divider"></div>
+                <p>
+                  Offering four intensive days of learning programming, 2D & 3D design, electronics and digital
+                  manufacturing, makers'&nbsp;bootcamps enable understanding of new technologies by DIY and DIWO
+                  methodologies. Through this training, participants become capable of thinking and making in complex
+                  and uncertain environments.
+                </p>
+              </div>
+            </div>
+
+            <div class="col s12 m12 l4">
+              <div class="card hoverable z-depth-3">
+                <h3>Team building</h3>
+                <div class="divider"></div>
+                <p>
+                  The immersive experience of makers'&nbsp;bootcamp allows participants to learn how to work together in
+                  a project mode. By being challenged in group on their personal skills through a concrete project
+                  inscribed in a short time, they become agile, able to respond to constraints by making and doing
+                  together.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-container">
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube-nocookie.com/embed/sJaHXrew7a8?controls=0"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div id="map" class=""></div>
+    </div>
+
+    <%- include('partials/footer.ejs') %>
+  </body>
+</html>
