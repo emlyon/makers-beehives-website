@@ -2,29 +2,7 @@
 <html lang="en">
   <head>
     <%- include('partials/head.ejs') %>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
-    <script
-      defer
-      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"
-    ></script>
-
-    <script defer>
-      window.addEventListener('load', () => {
-        document.querySelector('#map').style.height = `${(window.innerHeight / 2) | 0}px`;
-
-        const map = L.map('map', { scrollWheelZoom: false }).setView([45.7865, 4.764], 6);
-        L.tileLayer(
-          'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
-          {
-            attribution:
-              'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-          }
-        ).addTo(map);
-
-        const marker = L.marker([45.78715, 4.7637]).addTo(map);
-      });
-    </script>
+    
     <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script defer src="/js/index.js"></script>
     <script defer src="/js/chart.js"></script>
