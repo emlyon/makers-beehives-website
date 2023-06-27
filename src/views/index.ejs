@@ -13,16 +13,31 @@
       window.addEventListener('load', () => {
         document.querySelector('#map').style.height = `${(window.innerHeight / 2) | 0}px`;
 
-        const map = L.map('map', { scrollWheelZoom: false }).setView([45.7865, 4.764], 6);
+        var beehiveIcon = L.icon({
+          iconUrl: '/Users/BarnabeG/makers-beehives-website/src/public/img/icon-beehive-map.png',
+          //shadowUrl: 'leaf-shadow.png',
+
+          iconSize:     [38, 95], // size of the icon
+          shadowSize:   [50, 64], // size of the shadow
+          iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+          shadowAnchor: [4, 62],  // the same for the shadow
+          popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+      });
+    
+        const map = L.map('map', { scrollWheelZoom: false }).setView([45.7865, 4.764], 3);
         L.tileLayer(
           'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
           {
             attribution:
               'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
           }
+
         ).addTo(map);
 
         const marker = L.marker([45.78715, 4.7637]).addTo(map);
+
+        L.marker([51.5, -0.09], {icon: beehiveIcon}).addTo(map);
+
       });
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -109,7 +124,7 @@
         <div class="row">
           <div class="col s12 m12 l6">
             <div>
-              <iframe
+              <iframe style="border-radius:1em"
                 width="100%"
                 height="300px"
                 src="https://www.youtube-nocookie.com/embed/sJaHXrew7a8?controls=0"
