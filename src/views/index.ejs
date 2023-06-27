@@ -2,11 +2,33 @@
 <html lang="en">
   <head>
     <%- include('partials/head.ejs') %>
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.1.15/leaflet-providers.min.js"
+    ></script>
+
+    <script defer>
+      window.addEventListener('load', () => {
+        document.querySelector('#map').style.height = `${(window.innerHeight / 2) | 0}px`;
+
+        const map = L.map('map', { scrollWheelZoom: false }).setView([45.7865, 4.764], 6);
+        L.tileLayer(
+          'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+          {
+            attribution:
+              'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+          }
+        ).addTo(map);
+
+        const marker = L.marker([45.78715, 4.7637]).addTo(map);
+      });
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script defer src="/js/index.js"></script>
     <script defer src="/js/chart.js"></script>
-    
+
   </head>
 
   <body>
@@ -17,7 +39,7 @@
     </script>
     ` %>
     <%- include('partials/navbar.ejs') %>
-  <!--landing area -------------------------------------------->   
+  <!--landing area -------------------------------------------->
     <div id="home" class=" bg">
        <!-- <div class="blob-bg-2 bg-red-gradient"></div>
       <div class="blob-bg-1 bg-gold-gradient"></div>-->
@@ -25,8 +47,8 @@
         <div class="row">
           <div class="col s12 m12 l6">
             <div class="card z-depth-3">
-              <h1>BOOTCAMP BEEHIVES</h1> 
-              <p>Découvrez les bases du code et de la fabrication numérique et apprenez à prototyper vos projets rapidement. Les bootcamps sont des expériences immersives permettant de découvrir et de s'approprier les outils et technologies disponibles dans les makers'labs.</p>         
+              <h1>BOOTCAMP BEEHIVES</h1>
+              <p>Découvrez les bases du code et de la fabrication numérique et apprenez à prototyper vos projets rapidement. Les bootcamps sont des expériences immersives permettant de découvrir et de s'approprier les outils et technologies disponibles dans les makers'labs.</p>
               <div class="row" style="margin-left:4px">
                 <div class="col s12 m12 l6 red-color"style="border-left:4px solid #E2001A">
                   Mettez en œuvrel’hybridation des compétences
@@ -46,7 +68,7 @@
         </div>
       </div><!--end of container-->
 
- <!--White band -------------------------------------------->   
+ <!--White band -------------------------------------------->
         <div class="row white-band">
           <div class="col s12 m12 l3">
             <div class="row">
@@ -57,7 +79,7 @@
                  <b>4 jours</b><br> intenses
               </div>
             </div>
-          </div> 
+          </div>
           <div class="col s12 m12 l3">
             <div class="row">
               <div class="col s12 m12 l3">
@@ -67,19 +89,19 @@
                  <b>3</b><br> thématiques
               </div>
             </div>
-          </div>  
+          </div>
           <div class="col s12 m12 l3">
             <div class="row">
               <div class="col s12 m12 l3">
-                <img src="../img/objet-connecte.png " class="icon" alt=""/> 
+                <img src="../img/objet-connecte.png " class="icon" alt=""/>
               </div>
               <div class="col s12 m12 l9">
                  <b>1</b> <br>objet connecté
               </div>
             </div>
-          </div>      
+          </div>
         </div>
-<!--Video area -------------------------------------------->   
+<!--Video area -------------------------------------------->
         <div class="container" style="padding:5% 0">
           <div class="row">
             <div class="col s12 m12 l6">
@@ -107,19 +129,19 @@
           </div>
         </div><!--end of container-->
 
-    <!--Dark band -------------------------------------------->   
+    <!--Dark band -------------------------------------------->
     <div class="row dark-band white-color bg-red-gradient ">
       <div class="col s12 m12 l6">
         <h6>Expérience projet</h6>
         <h2>Apprendre en faisant</h2>
         <h5>Faire exister une innovation dans son environnement. Mettre des technologies au service de l’équilibre entre l’homme et la nature.</h5>
-      </div>  
+      </div>
       <div class="col s12 m12 l6">
         <img class="img-100" src="../img/map.png" alt=""/>
-      </div>      
+      </div>
     </div>
 
-    <!--Dashboard area -------------------------------------------->   
+    <!--Dashboard area -------------------------------------------->
     <div class="container">
       <div class="row">
         <div class="col s12 m12 l12 text-center" style="
@@ -151,26 +173,26 @@
         </div>
     </div>
   </div><!--end of container-->
-  <!--Dashboard area -------------------------------------------->   
+  <!--Dashboard area -------------------------------------------->
   <div class="container bg-2 white-color text-center">
     <div class="row">
       <div class="col s12 m12 l12">
         <h6>04/07/23</h6>
         <h2 class="text-center">Makers lab<br>
-        bootcamp</h2><br>  
+        bootcamp</h2><br>
         makers' beehives are the result of a 4 days workshop at emlyon business school makers' lab, <br>  focusing on technology litteracy and social innovation around tools accessible to every users at makers' lab.
       </div>
       <div class="col s12 m12 l12">
         <button class="white-color" style="margin: 5% auto;border-radius: 100px;">back to bees’ness 🐝</button>
       </div>
     </div>
+  </div>
+    <div id="map" class=""></div>
+  </div>
   </div><!--end of container-->
 
 </div><!--end of home-->
-      
-    <!--</div>
-      <div id="map" class=""></div>
-    </div>--> 
+
 
     <%- include('partials/footer.ejs') %>
   </body>
