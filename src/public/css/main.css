@@ -27,7 +27,6 @@
 h2{
     margin: 0;
     font-size: 36px;
-    //font-weight: 700;
     line-height: 40px;
     letter-spacing: 0em;
     text-align: left;
@@ -65,9 +64,6 @@ h6{
 .z-depth-4 {
 box-shadow:none!important;
 border-bottom:0.5px solid grey;
-}
-.grey.lighten-5 {
-    //background-color: transparent!important;
 }
 .white-band{
 background-color:white;
@@ -138,8 +134,6 @@ background: radial-gradient(circle, rgba(47,47,47,1) 0%, rgba(47,47,47,0) 50%);
     background-size: 100%;
     padding: 5em;
 }
-.deep-orange.darken-2 {
-}
 .nav-wrapper {
     min-height: 64px;
     display: flex;
@@ -200,7 +194,7 @@ button:hover {
 }
 .icon{
 width:100%;
-
+max-width: 40px;
 }
 
 @media only screen and (min-width: 993px){
