@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head.ejs') %>
+  </head>
+
+  <body>
+    <%- `
+    <script>
+      const errors = ${JSON.stringify(errors)};
+    </script>
+    ` %>
+    <%- include('partials/navbar.ejs') %>
+    <div id="content" class="container">
+      <h1>Beehives Error Log</h1>
+      <table class="striped">
+        <thead>
+          <tr>
+            <th>Datetime</th>
+            <th>Type</th>
+            <th>Message</th>
+          </tr>
+          <% Object.values(errors).reverse().forEach((error) => {  %>
+            <tr>
+              <td><%= error.dateTime %></td>
+              <td><%= error.type %></td>
+              <td><%= error.message %></td>
+            </tr>
+          <% }); %>
+        </thead>
+      </table>
+    </div>
+
+    <%- include('partials/footer.ejs') %>
+  </body>
+</html>
