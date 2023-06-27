@@ -37,7 +37,7 @@ app.get('/', (request, response) => {
     .get()
     .then((snapshot) => {
       beehivesData = snapshot.val();
-      response.render(__dirname + '/views/index.ejs', beehivesData);
+      response.render(__dirname + '/views/index.ejs', { beehivesData });
     });
 });
 
@@ -55,6 +55,15 @@ app.get('/beehives/:id', (request, response) => {
     });
 });
 
+app.get('/errors', (request, response) => {
+  db.ref(`errors/`)
+    .get()
+    .then((snapshot) => {
+      errors = snapshot.val();
+      response.render(__dirname + '/views/errors.ejs', { errors });
+    });
+});
+
 const listener = app.listen(process.env.PORT || 8080, () => {
-  console.log(`✨ App running on localhost:${listener.address().port}`);
+  console.log(`✨ App running on http://localhost:${listener.address().port}`);
 });
