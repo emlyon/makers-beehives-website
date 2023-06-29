@@ -15,8 +15,6 @@
 
         var beehiveIcon = L.icon({
           iconUrl: '../img/icon-beehive-map.png',
-         //shadowUrl: 'public/img/icon-beehive-map.png',
-
           iconSize:     [50, 100], // size of the icon
           shadowSize:   [50, 134], // size of the shadow
           iconAnchor:   [25, 100], // point of the icon which will correspond to marker's location
@@ -72,7 +70,7 @@
                   Mettez en œuvrel’hybridation des compétences
                 </div>
                 <div class="col s12 m12 l6">
-                  <button class="white-color">back to bees’ness 🐝</button>
+                  <a href="#chartsDashBoard"><button class="white-color">back to bees’ness 🐝</button></a>
                 </div>
               </div>
             </div>
@@ -165,9 +163,9 @@
       </div>
 
       <!--Dashboard area -------------------------------------------->
-      <div class="container">
+      <div class="container" id="chartsDashBoard">
         <div class="row">
-          <div class="col s12 m12 l12 text-center" style="padding: 9% 25% 2% 25%">
+          <div class="col s12 m12 l12 text-center" style="padding: 20% 25% 2% 25%">
             <h2 class="text-center">Un œil sur les données</h2>
             Offering four intensive days of learning programming, 2D & 3D design, electronics and digital manufacturing,
             makers' bootcamps enable understanding of new technologies by DIY and DIWO methodologies. Through this
