@@ -252,7 +252,10 @@ box-shadow:  3px 3px 6px #9b9a9a,
              3px 3px 12px #ff1a1a inset;
              color:white!important;
 }
+.imgur-img{
+border-radius:4em;
 
+}
 @media only screen and (min-width: 993px){
     .container {
         width: 80%;
