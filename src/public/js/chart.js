@@ -45,7 +45,7 @@ function createChart(beehiveData, chartId = '#chart') {
         formatter: function (value, { seriesIndex }) {
           const unit = Object.values(SENSORS_INFO).map((sensor) => sensor.unit)[seriesIndex];
           if (typeof value !== 'undefined') {
-            return [value.toFixed(0), unit].join(' ');
+            return [value.toFixed(1), unit].join(' ');
           }
           return value;
         }
