@@ -5,7 +5,7 @@ const firebase = require('firebase-admin');
 require('ejs');
 app.set('view engine', 'ejs');
 
-SENSORS_INFO = require('./sensors-data.js')
+SENSORS_INFO = require('./sensors-data.js');
 
 // We rebuild the service account configuration from the environment variables
 const serviceAccount = {
@@ -21,7 +21,6 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_X509_CERT_URL
 };
 
-
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: process.env.FIREBASE_ADMIN_DATABASE_URL
@@ -31,14 +30,14 @@ const db = firebase.database();
 
 app.use(express.static(__dirname + '/public'));
 
-app.set('SENSORS_INFO', SENSORS_INFO)
+app.set('SENSORS_INFO', SENSORS_INFO);
 
 app.get('/', (request, response) => {
   db.ref(`beehives/`)
     .get()
     .then((snapshot) => {
       beehivesData = snapshot.val();
-      response.render(__dirname + '/views/index.ejs', beehivesData);
+      response.render(__dirname + '/views/index.ejs', { beehivesData });
     });
 });
 
@@ -53,11 +52,18 @@ app.get('/beehives/:id', (request, response) => {
       //   element.dateTime = new Date(element.dateTime).toLocaleString('fr-FR').split(' à ').join(' ');
       // });
       response.render(__dirname + '/views/beehive.ejs', { beehiveData, beehiveId, beehiveIndex });
+    });
+});
 
+app.get('/errors', (request, response) => {
+  db.ref(`errors/`)
+    .get()
+    .then((snapshot) => {
+      errors = snapshot.val();
+      response.render(__dirname + '/views/errors.ejs', { errors });
     });
 });
 
 const listener = app.listen(process.env.PORT || 8080, () => {
-  console.log(`✨ App running on http://127.0.0.1:${listener.address().port}`);
+  console.log(`✨ App running on http://localhost:${listener.address().port}`);
 });
-

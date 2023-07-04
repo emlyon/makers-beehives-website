@@ -24,7 +24,7 @@
       <div id="chart"></div>
       <hr />
       <div class="row">
-        <% Object.values(beehiveData).forEach(dataEntry => { %>
+        <% Object.values(beehiveData).reverse().forEach(dataEntry => { %>
           <%- include('partials/beehiveDataEntry.ejs', {entry: dataEntry}) %>
         <% }); %>
       </div>
