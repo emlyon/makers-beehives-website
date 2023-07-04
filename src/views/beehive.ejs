@@ -19,15 +19,20 @@
 
     <div id="content" class="container beehive z-depth-3">
       <h3 class="deep-orange-text text-darken-2">Beehive # <%= beehiveId %></h3>
+      <% if (beehiveData) { %>
       <p class="last-update">Last update: <%= Object.values(beehiveData)[0].dateTime %></p>
       <hr />
       <div id="chart"></div>
       <hr />
-      <div class="row">
-        <% Object.values(beehiveData).forEach(dataEntry => { %>
-          <%- include('partials/beehiveDataEntry.ejs', {entry: dataEntry}) %>
-        <% }); %>
-      </div>
+        <div class="row">
+          <% Object.values(beehiveData).reverse().forEach(dataEntry => { %>
+            <%- include('partials/beehiveDataEntry.ejs', {entry: dataEntry}) %>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p class="grey-text text-darken-2">No data available</p>
+      <% } %>
+
     </div>
 
     <%- include('partials/footer.ejs') %>

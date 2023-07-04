@@ -1,3 +1,3 @@
-# Ruches connectées v2.0
+# Ruches connectées v3.0
 
-https://makersbeehives.herokuapp.com/
+https://makers-beehives-website.onrender.com/
