@@ -5,9 +5,7 @@ function createChart(beehiveData, chartId = '#chart') {
   const options = {
     series,
     labels,
-    theme: {
-      palette: 'palette1' // upto palette10
-    },
+    colors: ['#008FFB', '#00E396', '#746624', '#775DD0', '#F9CE1D', '#F9A3A4', '#F86624'],
     chart: {
       height: 350,
       type: 'line',
@@ -47,7 +45,7 @@ function createChart(beehiveData, chartId = '#chart') {
         formatter: function (value, { seriesIndex }) {
           const unit = Object.values(SENSORS_INFO).map((sensor) => sensor.unit)[seriesIndex];
           if (typeof value !== 'undefined') {
-            return [value.toFixed(0), unit].join(' ');
+            return [value.toFixed(1), unit].join(' ');
           }
           return value;
         }
@@ -86,4 +84,4 @@ function formatDatetime(dateTimeString) {
   const [day, month, year] = date.split('/');
   date = [month, day, year].join('/');
   return `${date} ${time}`;
-}  
+}

@@ -36,7 +36,7 @@ app.get('/', (request, response) => {
   db.ref(`beehives/`)
     .get()
     .then((snapshot) => {
-      beehivesData = snapshot.val();
+      beehivesData = formatBeehiveData(snapshot.val());
       response.render(__dirname + '/views/index.ejs', { beehivesData });
     });
 });
@@ -47,10 +47,7 @@ app.get('/beehives/:id', (request, response) => {
   db.ref(`beehives/${beehiveId}/data`)
     .get()
     .then((snapshot) => {
-      const beehiveData = snapshot.val();
-      // Object.values(beehiveData).forEach((element) => {
-      //   element.dateTime = new Date(element.dateTime).toLocaleString('fr-FR').split(' à ').join(' ');
-      // });
+      const beehiveData = formatBeehiveData(snapshot.val());
       response.render(__dirname + '/views/beehive.ejs', { beehiveData, beehiveId, beehiveIndex });
     });
 });
@@ -67,3 +64,12 @@ app.get('/errors', (request, response) => {
 const listener = app.listen(process.env.PORT || 8080, () => {
   console.log(`✨ App running on http://localhost:${listener.address().port}`);
 });
+
+// Handle old data format, where temperature and humidity keys were temp and hum
+function formatBeehiveData(beehiveData) {
+  Object.values(beehiveData).forEach((dataEntry) => {
+    dataEntry.sensors['temperature'] ||= dataEntry.sensors['temp'];
+    dataEntry.sensors['humidity'] ||= dataEntry.sensors['hum'];
+  });
+  return beehiveData;
+}
