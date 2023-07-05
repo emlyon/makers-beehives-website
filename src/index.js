@@ -36,7 +36,11 @@ app.get('/', (request, response) => {
   db.ref(`beehives/`)
     .get()
     .then((snapshot) => {
-      beehivesData = formatBeehiveData(snapshot.val());
+      beehivesData = snapshot.val();
+      Object.keys(beehivesData).forEach((beehiveId) => {
+        beehivesData[beehiveId].id = beehiveId;
+        beehivesData[beehiveId].data = formatBeehiveData(beehivesData[beehiveId].data);
+      });
       response.render(__dirname + '/views/index.ejs', { beehivesData });
     });
 });
