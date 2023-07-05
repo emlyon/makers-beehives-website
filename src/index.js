@@ -73,8 +73,8 @@ const listener = app.listen(process.env.PORT || 8080, () => {
 function formatBeehiveData(beehiveData) {
   if (!beehiveData) return;
   Object.values(beehiveData).forEach((dataEntry) => {
-    dataEntry.sensors['temperature'] ||= dataEntry.sensors['temp'];
-    dataEntry.sensors['humidity'] ||= dataEntry.sensors['hum'];
+    dataEntry.sensors['temperature'] = dataEntry.sensors['temperature'] || dataEntry.sensors['temp'];
+    dataEntry.sensors['humidity'] = dataEntry.sensors['humidity'] || dataEntry.sensors['hum'];
   });
   return beehiveData;
 }
