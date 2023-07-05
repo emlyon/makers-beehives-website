@@ -36,7 +36,11 @@ app.get('/', (request, response) => {
   db.ref(`beehives/`)
     .get()
     .then((snapshot) => {
-      beehivesData = formatBeehiveData(snapshot.val());
+      beehivesData = snapshot.val();
+      Object.keys(beehivesData).forEach((beehiveId) => {
+        beehivesData[beehiveId].id = beehiveId;
+        beehivesData[beehiveId].data = formatBeehiveData(beehivesData[beehiveId].data);
+      });
       response.render(__dirname + '/views/index.ejs', { beehivesData });
     });
 });
@@ -67,6 +71,7 @@ const listener = app.listen(process.env.PORT || 8080, () => {
 
 // Handle old data format, where temperature and humidity keys were temp and hum
 function formatBeehiveData(beehiveData) {
+  if (!beehiveData) return;
   Object.values(beehiveData).forEach((dataEntry) => {
     dataEntry.sensors['temperature'] ||= dataEntry.sensors['temp'];
     dataEntry.sensors['humidity'] ||= dataEntry.sensors['hum'];

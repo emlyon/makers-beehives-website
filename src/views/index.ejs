@@ -13,16 +13,26 @@
       window.addEventListener('load', () => {
         document.querySelector('#map').style.height = `${(window.innerHeight / 2) | 0}px`;
 
-        const map = L.map('map', { scrollWheelZoom: false }).setView([45.7865, 4.764], 6);
+        var beehiveIcon = L.icon({
+          iconUrl: '../img/icon-beehive-map.png',
+          iconSize:     [50, 100], // size of the icon
+          shadowSize:   [50, 134], // size of the shadow
+          iconAnchor:   [25, 100], // point of the icon which will correspond to marker's location
+          shadowAnchor: [4, 62],  // the same for the shadow
+          popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+      });
+
+        const map = L.map('map', { scrollWheelZoom: false }).setView([45.7865, 4.764], 3);
         L.tileLayer(
           'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
           {
             attribution:
               'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
           }
+
         ).addTo(map);
 
-        const marker = L.marker([45.78715, 4.7637]).addTo(map);
+        L.marker([45.78715, 4.7637], {icon: beehiveIcon}).addTo(map);
       });
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -44,7 +54,7 @@
       <div class="blob-bg-1 bg-gold-gradient"></div>-->
       <div class="container">
         <div class="row">
-          <div class="col s12 m12 l6">
+          <div class="col s12 m6 l6">
             <div class="card z-depth-3">
               <h1>BOOTCAMP BEEHIVES</h1>
               <p>
@@ -53,16 +63,16 @@
                 outils et technologies disponibles dans les makers'labs.
               </p>
               <div class="row" style="margin-left: 4px">
-                <div class="col s12 m12 l6 red-color" style="border-left: 4px solid #e2001a">
+                <div class="col s12 m6 l6 red-color" style="border-left: 4px solid #e2001a">
                   Mettez en œuvrel’hybridation des compétences
                 </div>
-                <div class="col s12 m12 l6">
-                  <button class="white-color">back to bees’ness 🐝</button>
+                <div class="col s12 m6 l6">
+                  <a href="#chartsDashBoard"><button class="white-color">back to bees’ness 🐝</button></a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col s12 m12 l6">
+          <div class="col s12 m6 l6">
             <div class="card z-depth-3">
               <img src="../img/beehive-white-stroke.png" style="width: 70%; margin: 2% 30%" alt="" />
             </div>
@@ -107,9 +117,9 @@
       <!--Video area -------------------------------------------->
       <div class="container" style="padding: 5% 0">
         <div class="row">
-          <div class="col s12 m12 l6">
+          <div class="col s12 m6 l6">
             <div>
-              <iframe
+              <iframe style="border-radius:1em"
                 width="100%"
                 height="300px"
                 src="https://www.youtube-nocookie.com/embed/sJaHXrew7a8?controls=0"
@@ -119,7 +129,7 @@
               ></iframe>
             </div>
           </div>
-          <div class="col s12 m12 l6 white-text">
+          <div class="col s12 m6 l6 white-text">
             <h6>Comment ça se passe</h6>
             <h2>4 jours intensifs pour découvrir <b>le bootcamp IoT et biodiversité</b></h2>
             <h4>Le bootcamp est découpé en 3 workshops :</h4>
@@ -135,7 +145,7 @@
 
       <!--Dark band -------------------------------------------->
       <div class="row dark-band white-color bg-red-gradient">
-        <div class="col s12 m12 l6">
+        <div class="col s12 m4 l6 glass-effect">
           <h6>Expérience projet</h6>
           <h2>Apprendre en faisant</h2>
           <h5>
@@ -143,39 +153,46 @@
             l’homme et la nature.
           </h5>
         </div>
-        <div class="col s12 m12 l6">
-          <img class="img-100" src="../img/map.png" alt="" />
+        <div class="col s12 m8 l6">
+          <!--<img class="img-100" src="../img/map.png" alt="" />-->
+          <div id="map" class=""></div>
         </div>
       </div>
 
       <!--Dashboard area -------------------------------------------->
-      <div class="container">
+      <div class="container" id="chartsDashBoard">
         <div class="row">
-          <div class="col s12 m12 l12 text-center" style="padding: 9% 0 2% 0">
-            <h2 class="text-center">Un œil sur les datas</h2>
-            Offering four intensive days of learning programming, 2D & 3D design, electronics and digital manufacturing,
-            makers' bootcamps enable understanding of new technologies by DIY and DIWO methodologies. Through this
-            training, participants become capable of thinking and making in complex and uncertain environments.
+          <div class="col s12 m12 l12 text-center" style="padding: 20% 25% 2% 25%">
+            <h2 class="text-center">Un œil sur les données</h2>
+            Quatre jours intensifs d'apprentissage de la programmation, de la conception 2D et 3D, de l'électronique et de la fabrication numérique,
+            Les "makers' bootcamps" permettent de comprendre les nouvelles technologies grâce aux méthodologies DIY. Grâce à cette
+            formation, les participants deviennent capables de penser et de fabriquer dans des environnements complexes et incertains.
           </div>
         </div>
 
         <div class="row">
-          <div class="col s12 m12 l6">
-            <div id="bee1Chart"></div>
+          <div id="bee1Preview" class="col s12 m12 l6">
+            <h3>Beehive 1</h3>
+            <p class="no-data-placeholder">No data available so far</p>
+            <div class="bee1Chart"></div>
             <button class="white-color btn-right">Voir plus</button>
           </div>
-          <div class="col s12 m12 l6">
-            <div id="bee2Chart"></div>
+          <div id="bee2Preview" class="col s12 m12 l6">
+            <h3>Beehive 2</h3>
+            <p class="no-data-placeholder">No data available so far</p>
+            <div class="bee2Chart"></div>
             <button class="white-color btn-right">Voir plus</button>
           </div>
-        </div>
-        <div class="row">
-          <div class="col s12 m12 l6">
-            <img class="img-100" src="../img/map.png" alt="" />
+          <div id="bee3Preview" class="col s12 m12 l6">
+            <h3>Beehive 3</h3>
+            <p class="no-data-placeholder">No data available so far</p>
+            <div class="bee3Chart"></div>
             <button class="white-color btn-right">Voir plus</button>
           </div>
-          <div class="col s12 m12 l6">
-            <img class="img-100" src="../img/map.png" alt="" />
+          <div id="bee4Preview" class="col s12 m12 l6">
+            <h3>Beehive 4</h3>
+            <p class="no-data-placeholder">No data available so far</p>
+            <div class="bee4Chart"></div>
             <button class="white-color btn-right">Voir plus</button>
           </div>
         </div>
@@ -191,9 +208,7 @@
               bootcamp
             </h2>
             <br />
-            makers' beehives are the result of a 4 days workshop at emlyon business school makers' lab, <br />
-            focusing on technology litteracy and social innovation around tools accessible to every users at makers'
-            lab.
+            Le bootcamp se base sur la découverte technologique et l'innovation sociale autour d'outils accessibles à tous les utilisateurs dans le cadre du makers' lab.
           </div>
           <div class="col s12 m12 l12">
             <button class="white-color" style="margin: 5% auto; border-radius: 100px">back to bees’ness 🐝</button>
@@ -201,7 +216,7 @@
         </div>
       </div>
       <!--end of container-->
-      <div id="map" class=""></div>
+
     </div>
     <!-- end of home -->
 

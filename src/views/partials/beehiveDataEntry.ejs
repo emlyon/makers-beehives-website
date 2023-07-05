@@ -1,8 +1,8 @@
-<div class="col s12 m6 l4">
+<div class="col s12 m4 l4">
   <div class="card z-depth-3 hoverable">
     <div class="card-image">
       <img
-        class="lazy materialboxed"
+        class="lazy materialboxed imgur-img"
         data-caption="<%= entry.dateTime %> weight: <%= entry.sensors.weight %> | light: <%= entry.sensors.light %> | temperature: <%= entry.sensors.temperature %> | noise: <%= entry.sensors.noise %> | humidity: <%= entry.sensors.humidity %> | co: <%= entry.sensors.co %> | no2: <%= entry.sensors.no2 %>"
         data-original="<%= entry.imageLink || 'http://placehold.it/800x533/000000/444444?text=No+Light' %>"
         src="http://placehold.it/800x533/000000/e2001a?text=Loading"
@@ -11,13 +11,13 @@
     </div>
     <div class="card-content red-text text-lighten-2">
       <p class="grey-text text-darken-2">
-        weight: <%= entry.sensors.weight %><br />
-        light: <%= entry.sensors.light %><br />
-        temperature: <%= entry.sensors.temperature %><br />
-        noise: <%= entry.sensors.noise %><br />
-        humidity: <%= entry.sensors.humidity %><br />
-        co: <%= entry.sensors.co %><br />
-        no2: <%= entry.sensors.no2 %>
+        Luminosité: <%= entry.sensors.light %><br />
+        température: <%= entry.sensors.temperature %><br />
+        Bruit: <%= entry.sensors.noise %><br />
+        Humidité: <%= entry.sensors.humidity %><br />
+        CO: <%= entry.sensors.co %><br />
+        NO2: <%= entry.sensors.no2  %><br />
+        Poids: <%= entry.sensors.weight %>
       </p>
     </div>
   </div>
